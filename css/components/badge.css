@@ -1,0 +1,60 @@
+/* ============================================================
+   badge.css — Status Badge ใช้รูปแบบเดียวกันทั้งระบบ
+   Active -> เขียว | Pending -> เหลือง | Completed -> น้ำเงิน | Cancelled -> แดง
+   render จริงผ่าน js/shared/status-badge.js เพื่อความสอดคล้องกันทุกหน้า
+   ============================================================ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: var(--fs-tiny);
+  font-weight: 500;
+  line-height: 1.6;
+  white-space: nowrap;
+}
+
+.badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* ---------- สถานะหลักตาม spec ---------- */
+.badge-active,
+.badge-registered,
+.badge-approved,
+.badge-published {
+  background: var(--color-status-active-bg);
+  color: var(--color-status-active);
+}
+
+.badge-pending,
+.badge-pending_approval,
+.badge-draft {
+  background: var(--color-status-pending-bg);
+  color: var(--color-status-pending);
+}
+
+.badge-completed,
+.badge-registration_closed {
+  background: var(--color-status-completed-bg);
+  color: var(--color-status-completed);
+}
+
+.badge-cancelled,
+.badge-rejected,
+.badge-absent {
+  background: var(--color-status-cancelled-bg);
+  color: var(--color-status-cancelled);
+}
+
+/* ---------- ขนาดย่อย (ใช้ในตารางแถวแคบ) ---------- */
+.badge-sm {
+  padding: 2px 8px;
+  font-size: 10px;
+}

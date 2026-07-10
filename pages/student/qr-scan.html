@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>สแกน QR เช็กชื่อ | Rmutr School - SAMS</title>
+
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css" />
+
+  <link rel="stylesheet" href="/css/base/reset.css" />
+  <link rel="stylesheet" href="/css/base/variables.css" />
+  <link rel="stylesheet" href="/css/base/typography.css" />
+  <link rel="stylesheet" href="/css/layout/sidebar.css" />
+  <link rel="stylesheet" href="/css/layout/topbar.css" />
+  <link rel="stylesheet" href="/css/layout/dashboard-layout.css" />
+  <link rel="stylesheet" href="/css/components/buttons.css" />
+  <link rel="stylesheet" href="/css/components/loading.css" />
+  <link rel="stylesheet" href="/css/components/popup.css" />
+  <link rel="stylesheet" href="/css/pages/student.css" />
+
+  <!-- Library สแกน QR (ใช้โดย js/student/qr-scan.js) -->
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+</head>
+<body>
+
+  <div class="app-shell" id="app-shell">
+
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <svg class="sidebar-logo-mark" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <rect width="40" height="40" rx="8" fill="#C8102E"/>
+          <path d="M20 10 L24 18 L33 19 L26 25 L28 34 L20 29 L12 34 L14 25 L7 19 L16 18 Z" fill="#fff"/>
+        </svg>
+        <div class="sidebar-logo-text">Rmutr School<small>School Activity Management</small></div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-section-label">กิจกรรมของฉัน</div>
+        <a href="./activities-list.html" class="sidebar-link"><i class="fi fi-rr-calendar-star"></i><span>รายการกิจกรรม</span></a>
+        <a href="./my-registrations.html" class="sidebar-link"><i class="fi fi-rr-clipboard-list"></i><span>สถานะลงทะเบียน</span></a>
+        <a href="./history.html" class="sidebar-link"><i class="fi fi-rr-time-past"></i><span>ประวัติการเข้าร่วม</span></a>
+        <a href="./scores-hours.html" class="sidebar-link"><i class="fi fi-rr-star"></i><span>คะแนน/ชั่วโมงสะสม</span></a>
+        <a href="./qr-scan.html" class="sidebar-link is-active"><i class="fi fi-rr-qrcode"></i><span>สแกน QR เช็กชื่อ</span></a>
+        <a href="./certificates.html" class="sidebar-link"><i class="fi fi-rr-diploma"></i><span>ใบประกาศนียบัตร</span></a>
+
+        <div class="sidebar-section-label">รายงาน</div>
+        <a href="../reports/dashboard-report.html" class="sidebar-link"><i class="fi fi-rr-dashboard"></i><span>Dashboard</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="sidebar-collapse-btn" id="sidebar-collapse-btn"><i class="fi fi-rr-angle-double-left"></i><span>ย่อเมนู</span></button>
+      </div>
+    </aside>
+
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+    <div class="app-main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="topbar-menu-btn" id="topbar-menu-btn" aria-label="เปิดเมนู"><i class="fi fi-rr-menu-burger"></i></button>
+          <div class="topbar-page-title">สแกน QR เช็กชื่อ</div>
+        </div>
+        <div class="topbar-right">
+          <button class="topbar-icon-btn" aria-label="แจ้งเตือน"><i class="fi fi-rr-bell"></i><span class="badge-dot"></span></button>
+          <div class="topbar-user">
+            <div class="topbar-user-avatar" id="topbar-user-avatar">น</div>
+            <div class="topbar-user-info">
+              <div class="topbar-user-name" id="topbar-user-name">นักเรียน</div>
+              <div class="topbar-user-role" id="topbar-user-role">Student</div>
+            </div>
+          </div>
+          <button class="btn btn-icon" id="logout-btn" aria-label="ออกจากระบบ"><i class="fi fi-rr-sign-out-alt"></i></button>
+        </div>
+      </header>
+
+      <main class="app-content">
+        <div class="page-header">
+          <div>
+            <div class="page-header-title">สแกน QR เพื่อเช็กชื่อ</div>
+            <div class="page-header-subtitle">ส่องกล้องไปที่ QR Code ของกิจกรรมที่หน้างานเพื่อบันทึกการเข้าร่วม</div>
+          </div>
+        </div>
+
+        <div class="qr-scan-wrap">
+          <div class="qr-scan-viewport">
+            <video id="qr-video" playsinline></video>
+            <div class="qr-scan-frame"></div>
+          </div>
+          <canvas id="qr-canvas" class="is-hidden"></canvas>
+
+          <button class="btn btn-primary btn-block" id="btn-start-scan"><i class="fi fi-rr-camera"></i> เปิดกล้องเพื่อสแกน</button>
+          <p class="qr-scan-status" id="qr-scan-status">
+            กดปุ่มด้านบนเพื่อเริ่มสแกน QR Code ของกิจกรรม
+          </p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script type="module">
+    import '../../js/auth/logout.js';
+    import '../../js/shared/layout.js';
+    import '../../js/student/qr-scan.js';
+  </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+    "sourceFile": "js/auth/login.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1783579697115,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1783579697115,
+            "name": "Commit-0",
+            "content": "/**\r\n * login.js — จัดการฟอร์ม login ของหน้า index.html\r\n */\r\n\r\nimport supabaseClient from '../config/supabase-client.js';\r\nimport { getHomeForRole } from './auth-guard.js';\r\nimport Popup from '../shared/popup.js';\r\n\r\nconst form = document.getElementById('login-form');\r\nconst emailInput = document.getElementById('login-email');\r\nconst passwordInput = document.getElementById('login-password');\r\nconst submitBtn = document.getElementById('login-submit');\r\nconst forgotLink = document.getElementById('login-forgot-link');\r\n\r\n// ถ้า login ค้างอยู่แล้ว ให้เด้งไปหน้า dashboard ของ role ตัวเองทันที ไม่ต้อง login ซ้ำ\r\n(async function redirectIfAlreadyLoggedIn() {\r\n  const session = supabaseClient.auth.getSession();\r\n  if (!session) return;\r\n\r\n  const { data: userData } = await supabaseClient.auth.getUser();\r\n  if (!userData) return;\r\n\r\n  const { data: profileRows } = await supabaseClient\r\n    .from('profiles')\r\n    .select('role', { filters: [['id', 'eq', userData.id]] });\r\n\r\n  if (profileRows && profileRows.length > 0) {\r\n    window.location.href = getHomeForRole(profileRows[0].role);\r\n  }\r\n})();\r\n\r\nfunction setLoading(isLoading) {\r\n  submitBtn.disabled = isLoading;\r\n  submitBtn.classList.toggle('is-loading', isLoading);\r\n  submitBtn.textContent = isLoading ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ';\r\n}\r\n\r\nform?.addEventListener('submit', async (e) => {\r\n  e.preventDefault();\r\n\r\n  const email = emailInput.value.trim();\r\n  const password = passwordInput.value;\r\n\r\n  if (!email || !password) {\r\n    Popup.warning('ข้อมูลไม่ครบถ้วน', 'กรุณากรอกอีเมลและรหัสผ่านให้ครบ');\r\n    return;\r\n  }\r\n\r\n  setLoading(true);\r\n\r\n  const { data: signInData, error: signInError } = await supabaseClient.auth.signInWithPassword(email, password);\r\n\r\n  if (signInError) {\r\n    setLoading(false);\r\n    Popup.error('เข้าสู่ระบบไม่สำเร็จ', 'อีเมลหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง');\r\n    return;\r\n  }\r\n\r\n  // ดึง role จาก profiles เพื่อ redirect ให้ถูกหน้า\r\n  const userId = signInData.user?.id;\r\n  const { data: profileRows, error: profileError } = await supabaseClient\r\n    .from('profiles')\r\n    .select('role,full_name', { filters: [['id', 'eq', userId]] });\r\n\r\n  setLoading(false);\r\n\r\n  if (profileError || !profileRows || profileRows.length === 0) {\r\n    Popup.error('ไม่พบข้อมูลผู้ใช้งาน', 'บัญชีนี้ยังไม่ได้ผูกกับข้อมูลผู้ใช้ในระบบ กรุณาติดต่อผู้ดูแลระบบ');\r\n    await supabaseClient.auth.signOut();\r\n    return;\r\n  }\r\n\r\n  const profile = profileRows[0];\r\n  Popup.toast('success', `ยินดีต้อนรับ ${profile.full_name}`);\r\n  setTimeout(() => {\r\n    window.location.href = getHomeForRole(profile.role);\r\n  }, 600);\r\n});\r\n\r\nforgotLink?.addEventListener('click', (e) => {\r\n  e.preventDefault();\r\n  document.getElementById('login-panel')?.classList.add('is-hidden');\r\n  document.getElementById('reset-panel')?.classList.remove('is-hidden');\r\n});"
+        }
+    ]
+}

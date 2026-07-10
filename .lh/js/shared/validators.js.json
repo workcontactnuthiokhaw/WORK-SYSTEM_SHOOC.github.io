@@ -1,0 +1,18 @@
+{
+    "sourceFile": "js/shared/validators.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1783618133063,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1783618133063,
+            "name": "Commit-0",
+            "content": "/**\r\n * validators.js — ฟังก์ชันกลางสำหรับ validate ฟอร์ม ใช้ร่วมกันทุกหน้า\r\n * ทุกฟังก์ชันคืนค่า string ข้อความ error (ถ้าผ่านจะคืน '' ว่างเปล่า)\r\n *\r\n * วิธีใช้:\r\n *   const err = isRequired(nameInput.value, 'กรุณากรอกชื่อ');\r\n *   if (err) { Popup.warning('ข้อมูลไม่ครบถ้วน', err); return; }\r\n *\r\n *   const errors = validateFields([\r\n *     [isRequired, email, 'กรุณากรอกอีเมล'],\r\n *     [isValidEmail, email, 'รูปแบบอีเมลไม่ถูกต้อง'],\r\n *   ]);\r\n */\r\n\r\nexport function isRequired(value, message = 'กรุณากรอกข้อมูลนี้') {\r\n  const isEmpty = value === null || value === undefined || String(value).trim() === '';\r\n  return isEmpty ? message : '';\r\n}\r\n\r\nexport function isValidEmail(value, message = 'รูปแบบอีเมลไม่ถูกต้อง') {\r\n  if (!value) return '';\r\n  const pattern = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\r\n  return pattern.test(value) ? '' : message;\r\n}\r\n\r\nexport function minLength(value, min, message) {\r\n  if (!value) return '';\r\n  return String(value).length < min ? (message || `ต้องมีอย่างน้อย ${min} ตัวอักษร`) : '';\r\n}\r\n\r\nexport function maxLength(value, max, message) {\r\n  if (!value) return '';\r\n  return String(value).length > max ? (message || `ต้องไม่เกิน ${max} ตัวอักษร`) : '';\r\n}\r\n\r\nexport function isNumeric(value, message = 'กรุณากรอกตัวเลขเท่านั้น') {\r\n  if (value === '' || value === null || value === undefined) return '';\r\n  return isNaN(Number(value)) ? message : '';\r\n}\r\n\r\nexport function isPositiveNumber(value, message = 'ต้องเป็นจำนวนมากกว่า 0') {\r\n  if (value === '' || value === null || value === undefined) return '';\r\n  const num = Number(value);\r\n  return isNaN(num) || num <= 0 ? message : '';\r\n}\r\n\r\nexport function isValidDateRange(startDate, endDate, message = 'วันที่สิ้นสุดต้องมาหลังวันที่เริ่มต้น') {\r\n  if (!startDate || !endDate) return '';\r\n  return new Date(endDate) < new Date(startDate) ? message : '';\r\n}\r\n\r\nexport function isFutureDate(dateValue, message = 'วันที่ต้องเป็นวันในอนาคต') {\r\n  if (!dateValue) return '';\r\n  return new Date(dateValue) < new Date() ? message : '';\r\n}\r\n\r\nexport function passwordsMatch(password, confirmPassword, message = 'รหัสผ่านไม่ตรงกัน') {\r\n  return password === confirmPassword ? '' : message;\r\n}\r\n\r\n/**\r\n * ตรวจสอบหลายเงื่อนไขพร้อมกัน คืนค่า array ของ error message แรกที่พบต่อ field\r\n * @param {Array<[fn, value, ...args, message]>} rules\r\n * @returns {string[]} รายการ error ที่ไม่ว่าง (ถ้าไม่มี error จะคืน array ว่าง)\r\n */\r\nexport function validateFields(rules) {\r\n  const errors = [];\r\n  for (const rule of rules) {\r\n    const [fn, ...args] = rule;\r\n    const error = fn(...args);\r\n    if (error) errors.push(error);\r\n  }\r\n  return errors;\r\n}"
+        }
+    ]
+}

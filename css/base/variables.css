@@ -1,0 +1,72 @@
+/* ============================================================
+   Rmutr School SAMS — Design Tokens
+   โทนสีหลัก: ขาว + แดง (Modern Admin Panel / Clean & Minimal)
+   ฟอนต์: Kanit เพียงแบบเดียวทั้งระบบ
+   ============================================================ */
+
+:root {
+  /* ---------- Brand red ---------- */
+  --color-primary: #C8102E;        /* แดงหลัก: ปุ่ม, active state, accent */
+  --color-primary-hover: #A10D24;  /* แดงเข้ม: hover/active ของปุ่ม */
+  --color-primary-light: #FDECEE;  /* แดงอ่อนมาก: พื้นหลัง badge/hover แถว */
+  --color-primary-soft: #F7D6DA;   /* แดงอ่อน: border เน้น, ring โฟกัส */
+
+  /* ---------- Neutrals ---------- */
+  --color-bg: #FFFFFF;             /* พื้นหลังการ์ด/เนื้อหา */
+  --color-bg-canvas: #F7F7F9;      /* พื้นหลังหลังบ้านทั้งหน้า (นอกการ์ด) */
+  --color-border: #E5E7EB;
+  --color-border-strong: #D1D5DB;
+  --color-text: #1A1A1E;
+  --color-text-muted: #6B7280;
+  --color-text-faint: #9CA3AF;
+  --color-sidebar-bg: #1A1015;     /* sidebar โทนเข้มอมแดง ให้ตัดกับพื้นขาว */
+  --color-sidebar-text: #E9DEE0;
+  --color-sidebar-active: #C8102E;
+
+  /* ---------- Status badges (ตายตัวตาม spec) ---------- */
+  --color-status-active: #16A34A;
+  --color-status-active-bg: #DCFCE7;
+  --color-status-pending: #D97706;
+  --color-status-pending-bg: #FEF3C7;
+  --color-status-completed: #2563EB;
+  --color-status-completed-bg: #DBEAFE;
+  --color-status-cancelled: #DC2626;
+  --color-status-cancelled-bg: #FEE2E2;
+
+  /* ---------- Typography ---------- */
+  --font-family: 'Kanit', sans-serif;
+  --fs-display: 2.25rem;
+  --fs-h1: 1.75rem;
+  --fs-h2: 1.375rem;
+  --fs-h3: 1.125rem;
+  --fs-body: 0.9375rem;
+  --fs-small: 0.8125rem;
+  --fs-tiny: 0.6875rem;
+
+  /* ---------- Spacing scale ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  /* ---------- Radius & shadow ---------- */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 999px;
+  --shadow-sm: 0 1px 2px rgba(20, 10, 12, 0.06);
+  --shadow-md: 0 4px 16px rgba(20, 10, 12, 0.08);
+  --shadow-lg: 0 12px 32px rgba(20, 10, 12, 0.14);
+
+  /* ---------- Layout ---------- */
+  --sidebar-width: 264px;
+  --sidebar-width-collapsed: 76px;
+  --topbar-height: 68px;
+
+  /* ---------- Motion ---------- */
+  --transition-fast: 150ms ease;
+  --transition-base: 220ms ease;
+}

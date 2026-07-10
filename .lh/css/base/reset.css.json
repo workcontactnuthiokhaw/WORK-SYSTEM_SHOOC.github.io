@@ -1,0 +1,18 @@
+{
+    "sourceFile": "css/base/reset.css",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1783578947367,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1783578947367,
+            "name": "Commit-0",
+            "content": "/* ============================================================\r\n   reset.css — CSS reset พื้นฐาน ก่อนเริ่มจัด layout จริง\r\n   ============================================================ */\r\n\r\n*, *::before, *::after {\r\n  box-sizing: border-box;\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\nhtml {\r\n  -webkit-text-size-adjust: 100%;\r\n  scroll-behavior: smooth;\r\n}\r\n\r\nbody {\r\n  min-height: 100vh;\r\n  font-family: var(--font-family);\r\n  color: var(--color-text);\r\n  background-color: var(--color-bg-canvas);\r\n  line-height: 1.5;\r\n  -webkit-font-smoothing: antialiased;\r\n}\r\n\r\nimg, svg {\r\n  display: block;\r\n  max-width: 100%;\r\n}\r\n\r\na {\r\n  color: inherit;\r\n  text-decoration: none;\r\n}\r\n\r\nbutton {\r\n  font-family: inherit;\r\n  cursor: pointer;\r\n  border: none;\r\n  background: none;\r\n  color: inherit;\r\n}\r\n\r\ninput, select, textarea {\r\n  font-family: inherit;\r\n  font-size: inherit;\r\n  color: inherit;\r\n}\r\n\r\nul, ol {\r\n  list-style: none;\r\n}\r\n\r\ntable {\r\n  border-collapse: collapse;\r\n  width: 100%;\r\n}\r\n\r\n/* จุดโฟกัสที่มองเห็นได้ชัดเจน สำหรับผู้ใช้คีย์บอร์ด */\r\n:focus-visible {\r\n  outline: 2px solid var(--color-primary);\r\n  outline-offset: 2px;\r\n}\r\n\r\n@media (prefers-reduced-motion: reduce) {\r\n  *, *::before, *::after {\r\n    animation-duration: 0.01ms !important;\r\n    animation-iteration-count: 1 !important;\r\n    transition-duration: 0.01ms !important;\r\n    scroll-behavior: auto !important;\r\n  }\r\n}"
+        }
+    ]
+}

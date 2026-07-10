@@ -1,0 +1,190 @@
+/* ============================================================
+   student.css — สไตล์เฉพาะหน้า Student
+   (activities-list, my-registrations, history, scores-hours, qr-scan, certificates)
+   ============================================================ */
+
+/* ---------- Activity grid สำหรับนักเรียนเลือกลงทะเบียน ---------- */
+.student-activity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-4);
+}
+
+.student-activity-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+.student-activity-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.student-activity-cover {
+  height: 120px;
+  background: linear-gradient(135deg, var(--color-primary) 0%, #7A0A1C 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 32px;
+}
+
+.student-activity-body {
+  padding: var(--space-4);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.student-activity-type {
+  font-size: var(--fs-tiny);
+  color: var(--color-primary);
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.student-activity-title {
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+}
+
+.student-activity-meta {
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.student-activity-meta span { display: flex; align-items: center; gap: 6px; }
+
+.student-activity-seats-bar {
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--color-bg-canvas);
+  overflow: hidden;
+  margin-bottom: var(--space-3);
+}
+
+.student-activity-seats-fill {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: var(--radius-full);
+}
+
+.student-activity-footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ---------- คะแนน/ชั่วโมงสะสม (สรุป) ---------- */
+.score-summary-hero {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.score-summary-item {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  text-align: center;
+}
+
+.score-summary-value {
+  font-size: var(--fs-display);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.score-summary-label {
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+}
+
+/* ---------- QR Scan ---------- */
+.qr-scan-wrap {
+  max-width: 420px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.qr-scan-viewport {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #111;
+  margin-bottom: var(--space-4);
+}
+
+.qr-scan-viewport video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.qr-scan-frame {
+  position: absolute;
+  inset: 15%;
+  border: 3px solid rgba(255, 255, 255, 0.85);
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 0 999px rgba(0, 0, 0, 0.35);
+}
+
+.qr-scan-status {
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+  margin-top: var(--space-3);
+}
+
+/* ---------- Certificates gallery ---------- */
+.certificate-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--space-4);
+}
+
+.certificate-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  text-align: center;
+}
+
+.certificate-thumb {
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-md);
+  background: linear-gradient(160deg, #FDECEE 0%, #FBF7F8 100%);
+  border: 1px dashed var(--color-primary-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  font-size: 36px;
+  margin-bottom: var(--space-3);
+}
+
+.certificate-no {
+  font-size: var(--fs-tiny);
+  color: var(--color-text-faint);
+  margin-bottom: var(--space-3);
+}
+
+@media (max-width: 640px) {
+  .score-summary-hero { grid-template-columns: 1fr; }
+}

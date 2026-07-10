@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เข้าสู่ระบบ | Rmutr School - SAMS</title>
+
+  <!-- Flaticon Uicons (ไอคอนทั้งระบบใช้ตัวนี้ตัวเดียว ห้ามใช้ icon library อื่น) -->
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css" />
+
+  <link rel="stylesheet" href="/css/base/reset.css" />
+  <link rel="stylesheet" href="/css/base/variables.css" />
+  <link rel="stylesheet" href="/css/base/typography.css" />
+  <link rel="stylesheet" href="/css/components/popup.css" />
+  <link rel="stylesheet" href="/css/pages/login.css" />
+</head>
+<body>
+
+  <main class="login-page">
+    <div class="login-card">
+
+      <!-- ฝั่งซ้าย: แบรนด์ -->
+      <section class="login-brand">
+        <div>
+          <svg class="login-brand-seal" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="50" cy="50" r="46" fill="none" stroke="#ffffff" stroke-opacity="0.9" stroke-width="3"/>
+            <circle cx="50" cy="50" r="36" fill="none" stroke="#ffffff" stroke-opacity="0.55" stroke-width="1.5" stroke-dasharray="2 4"/>
+            <path d="M50 30 L58 46 L76 48 L63 60 L66 78 L50 69 L34 78 L37 60 L24 48 L42 46 Z" fill="#ffffff" fill-opacity="0.95"/>
+          </svg>
+          <div class="login-brand-copy">
+            <h1>Rmutr School</h1>
+            <p>ระบบจัดการกิจกรรมสถานศึกษา ลงทะเบียน เช็กชื่อด้วย QR สะสมชั่วโมง และรับใบประกาศนียบัตรในที่เดียว</p>
+          </div>
+        </div>
+        <div class="login-brand-footer">School Activity Management System</div>
+      </section>
+
+      <!-- ฝั่งขวา: ฟอร์ม login -->
+      <section class="login-form-panel" id="login-panel">
+        <h2 class="login-form-title">เข้าสู่ระบบ</h2>
+        <p class="login-form-subtitle">กรอกอีเมลและรหัสผ่านของคุณเพื่อเข้าใช้งานระบบ</p>
+
+        <form id="login-form" novalidate>
+          <div class="login-field">
+            <label for="login-email">อีเมล</label>
+            <div class="login-input-wrap">
+              <i class="fi fi-rr-envelope"></i>
+              <input type="email" id="login-email" name="email" placeholder="you@example.com" autocomplete="username" required />
+            </div>
+          </div>
+
+          <div class="login-field">
+            <label for="login-password">รหัสผ่าน</label>
+            <div class="login-input-wrap">
+              <i class="fi fi-rr-lock"></i>
+              <input type="password" id="login-password" name="password" placeholder="••••••••" autocomplete="current-password" required />
+              <button type="button" class="login-toggle-visibility" id="toggle-password" aria-label="แสดง/ซ่อนรหัสผ่าน">
+                <i class="fi fi-rr-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="login-row-between">
+            <a href="#" class="login-link" id="login-forgot-link">ลืมรหัสผ่าน?</a>
+          </div>
+
+          <button type="submit" class="login-submit-btn" id="login-submit">เข้าสู่ระบบ</button>
+        </form>
+      </section>
+
+      <!-- ฝั่งขวา: ฟอร์มขอลิงก์รีเซ็ตรหัสผ่าน (ซ่อนไว้ก่อน) -->
+      <section class="login-form-panel is-hidden" id="reset-panel">
+        <h2 class="login-form-title">ลืมรหัสผ่าน</h2>
+        <p class="login-form-subtitle">กรอกอีเมลที่ใช้ลงทะเบียน ระบบจะส่งลิงก์ตั้งรหัสผ่านใหม่ให้ทางอีเมล</p>
+
+        <form id="reset-request-form" novalidate>
+          <div class="login-field">
+            <label for="reset-email">อีเมล</label>
+            <div class="login-input-wrap">
+              <i class="fi fi-rr-envelope"></i>
+              <input type="email" id="reset-email" name="email" placeholder="you@example.com" required />
+            </div>
+          </div>
+
+          <button type="submit" class="login-submit-btn" id="reset-submit">ส่งลิงก์รีเซ็ตรหัสผ่าน</button>
+        </form>
+
+        <div class="login-back-row">
+          <a href="#" class="login-link" id="back-to-login-link">กลับไปหน้าเข้าสู่ระบบ</a>
+        </div>
+      </section>
+
+      <!-- ฝั่งขวา: ฟอร์มตั้งรหัสผ่านใหม่ (แสดงเมื่อกดลิงก์จากอีเมลกลับมา) -->
+      <section class="login-form-panel is-hidden" id="new-password-panel">
+        <h2 class="login-form-title">ตั้งรหัสผ่านใหม่</h2>
+        <p class="login-form-subtitle">กรอกรหัสผ่านใหม่ของคุณ</p>
+
+        <form id="new-password-form" novalidate>
+          <div class="login-field">
+            <label for="new-password">รหัสผ่านใหม่</label>
+            <div class="login-input-wrap">
+              <i class="fi fi-rr-lock"></i>
+              <input type="password" id="new-password" name="newPassword" placeholder="อย่างน้อย 6 ตัวอักษร" required />
+            </div>
+          </div>
+
+          <div class="login-field">
+            <label for="new-password-confirm">ยืนยันรหัสผ่านใหม่</label>
+            <div class="login-input-wrap">
+              <i class="fi fi-rr-lock"></i>
+              <input type="password" id="new-password-confirm" name="newPasswordConfirm" placeholder="พิมพ์รหัสผ่านอีกครั้ง" required />
+            </div>
+          </div>
+
+          <button type="submit" class="login-submit-btn">บันทึกรหัสผ่านใหม่</button>
+        </form>
+      </section>
+
+    </div>
+  </main>
+
+  <script type="module">
+    import './js/auth/login.js';
+    import './js/auth/reset-password.js';
+
+    // ปุ่มแสดง/ซ่อนรหัสผ่าน
+    const toggleBtn = document.getElementById('toggle-password');
+    const passwordInput = document.getElementById('login-password');
+    toggleBtn?.addEventListener('click', () => {
+      const isPassword = passwordInput.type === 'password';
+      passwordInput.type = isPassword ? 'text' : 'password';
+      toggleBtn.innerHTML = isPassword
+        ? '<i class="fi fi-rr-eye-crossed"></i>'
+        : '<i class="fi fi-rr-eye"></i>';
+    });
+  </script>
+</body>
+</html>

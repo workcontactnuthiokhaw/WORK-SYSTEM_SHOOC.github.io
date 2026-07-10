@@ -1,0 +1,169 @@
+/* ============================================================
+   teacher.css — สไตล์เฉพาะหน้า Teacher
+   (activities, activity-form, activity-detail, attendance, qr-generate, teachers-manage)
+   ============================================================ */
+
+/* ---------- Activity card (มุมมองการ์ดในหน้ารายการกิจกรรม) ---------- */
+.activity-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+.activity-card:hover { box-shadow: var(--shadow-md); border-color: var(--color-border-strong); }
+
+.activity-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-3);
+}
+
+.activity-card-type {
+  font-size: var(--fs-tiny);
+  color: var(--color-primary);
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.activity-card-title {
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+}
+
+.activity-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-4);
+}
+
+.activity-card-meta span { display: flex; align-items: center; gap: 6px; }
+
+.activity-card-seats {
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+}
+
+.activity-card-seats b { color: var(--color-text); }
+
+.activity-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.view-only-tag {
+  font-size: var(--fs-tiny);
+  color: var(--color-text-faint);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ---------- Activity form (2 คอลัมน์) ---------- */
+.activity-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4) var(--space-5);
+}
+
+.activity-form-grid .form-field.full-width { grid-column: 1 / -1; }
+
+/* ---------- Attendance / Grading table ---------- */
+.attendance-score-input {
+  width: 70px;
+  padding: 6px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  font-size: var(--fs-small);
+}
+
+.attendance-checkin-time {
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+}
+
+.attendance-checkin-time.not-checked-in { color: var(--color-text-faint); font-style: italic; }
+
+/* ---------- QR generate / print ---------- */
+.qr-display-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  text-align: center;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.qr-display-card canvas,
+.qr-display-card img {
+  margin: 0 auto var(--space-4);
+}
+
+.qr-display-activity-name {
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  margin-bottom: var(--space-1);
+}
+
+.qr-display-activity-code {
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-5);
+}
+
+@media print {
+  body * { visibility: hidden; }
+  .qr-display-card, .qr-display-card * { visibility: visible; }
+  .qr-display-card { position: absolute; top: 0; left: 0; border: none; box-shadow: none; }
+}
+
+/* ---------- Teachers-manage (many-to-many) ---------- */
+.teacher-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--color-bg-canvas);
+  border-radius: var(--radius-full);
+  padding: 4px 6px 4px 4px;
+  font-size: var(--fs-small);
+  margin: 0 6px 6px 0;
+}
+
+.teacher-chip-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-tiny);
+  font-weight: 600;
+}
+
+.teacher-chip-role {
+  font-size: var(--fs-tiny);
+  color: var(--color-text-muted);
+}
+
+.teacher-chip-remove {
+  color: var(--color-text-faint);
+  font-size: 13px;
+  padding: 2px;
+}
+.teacher-chip-remove:hover { color: var(--color-status-cancelled); }
+
+@media (max-width: 768px) {
+  .activity-form-grid { grid-template-columns: 1fr; }
+}

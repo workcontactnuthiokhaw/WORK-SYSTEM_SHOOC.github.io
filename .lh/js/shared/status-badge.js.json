@@ -1,0 +1,18 @@
+{
+    "sourceFile": "js/shared/status-badge.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1783618122336,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1783618122336,
+            "name": "Commit-0",
+            "content": "/**\r\n * status-badge.js — ฟังก์ชันกลางสำหรับ render Status Badge ให้เหมือนกันทุกหน้า\r\n * คู่กับ css/components/badge.css\r\n *\r\n * วิธีใช้:\r\n *   import { renderStatusBadge, ACTIVITY_STATUS_LABELS } from '../shared/status-badge.js';\r\n *   cell.innerHTML = renderStatusBadge('completed', ACTIVITY_STATUS_LABELS);\r\n */\r\n\r\nexport const ACTIVITY_STATUS_LABELS = {\r\n  draft: 'ร่าง',\r\n  published: 'เผยแพร่แล้ว',\r\n  registration_open: 'เปิดลงทะเบียน',\r\n  registration_closed: 'ปิดลงทะเบียน',\r\n  ongoing: 'กำลังดำเนินการ',\r\n  completed: 'เสร็จสิ้น',\r\n  cancelled: 'ยกเลิก',\r\n};\r\n\r\nexport const REGISTRATION_STATUS_LABELS = {\r\n  pending_approval: 'รอการอนุมัติ',\r\n  approved: 'อนุมัติแล้ว',\r\n  rejected: 'ถูกปฏิเสธ',\r\n  registered: 'ลงทะเบียนแล้ว',\r\n  cancelled: 'ยกเลิกแล้ว',\r\n};\r\n\r\nexport const ATTENDANCE_STATUS_LABELS = {\r\n  registered: 'ยังไม่เช็กชื่อ',\r\n  present: 'มาเข้าร่วม',\r\n  absent: 'ขาด',\r\n  late: 'มาสาย',\r\n  completed: 'เสร็จสิ้น',\r\n};\r\n\r\n/**\r\n * สร้าง HTML ของ badge ตามสถานะ\r\n * @param {string} status - ค่าสถานะดิบจากฐานข้อมูล เช่น 'completed'\r\n * @param {object} labelMap - เช่น ACTIVITY_STATUS_LABELS (ถ้าไม่ส่งจะใช้ status ดิบเป็น label)\r\n * @param {boolean} small - true ถ้าต้องการ badge ขนาดเล็ก (ใช้ในตารางแถวแคบ)\r\n */\r\nexport function renderStatusBadge(status, labelMap = {}, small = false) {\r\n  const label = labelMap[status] || status || '-';\r\n  const sizeClass = small ? 'badge-sm' : '';\r\n  return `<span class=\"badge badge-${status} ${sizeClass}\">${escapeHtml(label)}</span>`;\r\n}\r\n\r\nfunction escapeHtml(str) {\r\n  const div = document.createElement('div');\r\n  div.textContent = str ?? '';\r\n  return div.innerHTML;\r\n}"
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "sourceFile": "css/components/table.css",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1783579071236,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1783663497680,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,8 +30,10 @@\n   flex: 1;\r\n   max-width: 320px;\r\n }\r\n \r\n+.table-search.full-width { max-width: none; }\r\n+\r\n .table-search i { color: var(--color-text-faint); font-size: 15px; }\r\n \r\n .table-search input {\r\n   border: none;\r\n@@ -115,8 +117,10 @@\n   gap: var(--space-2);\r\n   justify-content: flex-end;\r\n }\r\n \r\n+.data-table th.col-narrow { width: 220px; }\r\n+\r\n @media (max-width: 768px) {\r\n   .table-toolbar { flex-direction: column; align-items: stretch; }\r\n   .table-search { max-width: none; }\r\n }\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1783579071236,
+            "name": "Commit-0",
+            "content": "/* ============================================================\r\n   table.css — ตารางมาตรฐาน ใช้ร่วมกับ table-utils.js (sort/search/filter)\r\n   ============================================================ */\r\n\r\n.table-card {\r\n  background: var(--color-bg);\r\n  border: 1px solid var(--color-border);\r\n  border-radius: var(--radius-lg);\r\n  overflow: hidden;\r\n}\r\n\r\n.table-toolbar {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: space-between;\r\n  gap: var(--space-3);\r\n  padding: var(--space-4) var(--space-4);\r\n  border-bottom: 1px solid var(--color-border);\r\n  flex-wrap: wrap;\r\n}\r\n\r\n.table-search {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: var(--space-2);\r\n  border: 1px solid var(--color-border);\r\n  border-radius: var(--radius-md);\r\n  padding: 8px 12px;\r\n  min-width: 240px;\r\n  flex: 1;\r\n  max-width: 320px;\r\n}\r\n\r\n.table-search i { color: var(--color-text-faint); font-size: 15px; }\r\n\r\n.table-search input {\r\n  border: none;\r\n  outline: none;\r\n  flex: 1;\r\n  font-size: var(--fs-small);\r\n  background: transparent;\r\n}\r\n\r\n.table-filters {\r\n  display: flex;\r\n  gap: var(--space-2);\r\n  flex-wrap: wrap;\r\n}\r\n\r\n.table-filters select {\r\n  border: 1px solid var(--color-border);\r\n  border-radius: var(--radius-md);\r\n  padding: 8px 12px;\r\n  font-size: var(--fs-small);\r\n  color: var(--color-text);\r\n  background: var(--color-bg);\r\n}\r\n\r\n.table-scroll {\r\n  overflow-x: auto;\r\n}\r\n\r\n.data-table {\r\n  width: 100%;\r\n  border-collapse: collapse;\r\n  min-width: 640px;\r\n}\r\n\r\n.data-table thead th {\r\n  text-align: left;\r\n  font-size: var(--fs-tiny);\r\n  font-weight: 600;\r\n  color: var(--color-text-muted);\r\n  text-transform: uppercase;\r\n  letter-spacing: 0.04em;\r\n  padding: var(--space-3) var(--space-4);\r\n  background: var(--color-bg-canvas);\r\n  border-bottom: 1px solid var(--color-border);\r\n  white-space: nowrap;\r\n}\r\n\r\n.data-table thead th.sortable {\r\n  cursor: pointer;\r\n  user-select: none;\r\n}\r\n\r\n.data-table thead th.sortable i {\r\n  font-size: 11px;\r\n  margin-left: 4px;\r\n  color: var(--color-text-faint);\r\n}\r\n\r\n.data-table tbody td {\r\n  padding: var(--space-3) var(--space-4);\r\n  font-size: var(--fs-body);\r\n  border-bottom: 1px solid var(--color-border);\r\n  color: var(--color-text);\r\n  vertical-align: middle;\r\n}\r\n\r\n.data-table tbody tr:last-child td { border-bottom: none; }\r\n\r\n.data-table tbody tr {\r\n  transition: background var(--transition-fast);\r\n}\r\n\r\n.data-table tbody tr:hover {\r\n  background: var(--color-primary-light);\r\n}\r\n\r\n.data-table .cell-muted { color: var(--color-text-muted); font-size: var(--fs-small); }\r\n\r\n.data-table .cell-actions {\r\n  display: flex;\r\n  gap: var(--space-2);\r\n  justify-content: flex-end;\r\n}\r\n\r\n@media (max-width: 768px) {\r\n  .table-toolbar { flex-direction: column; align-items: stretch; }\r\n  .table-search { max-width: none; }\r\n}"
+        }
+    ]
+}

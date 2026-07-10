@@ -1,0 +1,18 @@
+{
+    "sourceFile": "js/auth/auth-guard.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1783579691191,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1783579691191,
+            "name": "Commit-0",
+            "content": "/**\r\n * auth-guard.js\r\n * ตรวจสอบ session และสิทธิ์ (role) ก่อนอนุญาตให้เข้าหน้าใดๆ หลัง login\r\n *\r\n * วิธีใช้: import ไฟล์นี้ไว้บนสุดของทุกหน้าใน /pages/** และ dashboard.html\r\n *   import { requireAuth } from '/js/auth/auth-guard.js';\r\n *   const profile = await requireAuth(['admin']); // อนุญาตเฉพาะ admin เท่านั้น\r\n *   const profile = await requireAuth(['admin','teacher']); // อนุญาตหลาย role\r\n *   const profile = await requireAuth(); // แค่เช็คว่า login แล้ว ไม่จำกัด role\r\n */\r\n\r\nimport supabaseClient from '../config/supabase-client.js';\r\n\r\nconst ROLE_HOME = {\r\n  admin: '/pages/reports/dashboard-report.html',\r\n  teacher: '/pages/teacher/activities.html',\r\n  student: '/pages/student/activities-list.html',\r\n};\r\n\r\nfunction redirectToLogin() {\r\n  window.location.href = '/index.html';\r\n}\r\n\r\n/**\r\n * ตรวจสอบว่า login อยู่หรือไม่ และมี role ตรงตามที่กำหนดหรือไม่\r\n * ถ้าไม่ผ่านเงื่อนไข จะ redirect ออกไปหน้าที่เหมาะสมโดยอัตโนมัติ\r\n * คืนค่า profile ของผู้ใช้ปัจจุบัน { id, full_name, role } เมื่อผ่านการตรวจสอบ\r\n */\r\nexport async function requireAuth(allowedRoles = null) {\r\n  const session = supabaseClient.auth.getSession();\r\n  if (!session) {\r\n    redirectToLogin();\r\n    return null;\r\n  }\r\n\r\n  // เช็คว่า token ยังใช้งานได้จริง (ไม่ได้ถูก revoke/หมดอายุ)\r\n  const { data: userData, error: userError } = await supabaseClient.auth.getUser();\r\n  if (userError || !userData) {\r\n    redirectToLogin();\r\n    return null;\r\n  }\r\n\r\n  // ดึง role จากตาราง profiles\r\n  const { data: profileRows, error: profileError } = await supabaseClient\r\n    .from('profiles')\r\n    .select('id,full_name,role', { filters: [['id', 'eq', userData.id]] });\r\n\r\n  if (profileError || !profileRows || profileRows.length === 0) {\r\n    redirectToLogin();\r\n    return null;\r\n  }\r\n\r\n  const profile = profileRows[0];\r\n\r\n  if (allowedRoles && !allowedRoles.includes(profile.role)) {\r\n    // login อยู่ แต่ role ไม่มีสิทธิ์เข้าหน้านี้ -> พาไปหน้า dashboard ของ role ตัวเอง\r\n    window.location.href = ROLE_HOME[profile.role] || '/index.html';\r\n    return null;\r\n  }\r\n\r\n  // เก็บ profile ไว้ใช้ทั่วเว็บแบบเร็วๆ (sidebar, topbar แสดงชื่อ/role)\r\n  sessionStorage.setItem('sams_current_profile', JSON.stringify(profile));\r\n\r\n  return profile;\r\n}\r\n\r\n/** ใช้ตอน redirect หลัง login สำเร็จ ไปหน้า dashboard ที่ตรงกับ role */\r\nexport function getHomeForRole(role) {\r\n  return ROLE_HOME[role] || '/index.html';\r\n}"
+        }
+    ]
+}

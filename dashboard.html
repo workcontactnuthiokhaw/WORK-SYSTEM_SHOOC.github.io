@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>กำลังเข้าสู่ระบบ... | Rmutr School - SAMS</title>
+
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css" />
+
+  <link rel="stylesheet" href="/css/base/reset.css" />
+  <link rel="stylesheet" href="/css/base/variables.css" />
+  <link rel="stylesheet" href="/css/base/typography.css" />
+  <link rel="stylesheet" href="/css/components/loading.css" />
+</head>
+<body>
+
+  <!--
+    หน้านี้ไม่มี UI ถาวร เป็นแค่จุดพักหลัง login
+    dashboard-redirect.js จะเช็ค session แล้วส่งต่อไปหน้า dashboard ที่ตรงกับ role โดยอัตโนมัติ:
+      admin   -> /pages/reports/dashboard-report.html
+      teacher -> /pages/teacher/activities.html
+      student -> /pages/student/activities-list.html
+    ถ้ายังไม่ login จะถูกเด้งกลับไปหน้า /index.html
+  -->
+
+  <main class="loading-fullpage">
+    <div class="spinner lg"></div>
+    <p class="loading-fullpage-label">กำลังตรวจสอบสิทธิ์การใช้งาน...</p>
+  </main>
+
+  <script type="module" src="/js/dashboard-redirect.js"></script>
+</body>
+</html>

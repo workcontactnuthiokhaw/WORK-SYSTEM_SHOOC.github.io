@@ -1,0 +1,84 @@
+/**
+ * login.js — จัดการฟอร์ม login ของหน้า index.html
+ */
+
+import supabaseClient from '../config/supabase-client.js';
+import { getHomeForRole } from './auth-guard.js';
+import Popup from '../shared/popup.js';
+
+const form = document.getElementById('login-form');
+const emailInput = document.getElementById('login-email');
+const passwordInput = document.getElementById('login-password');
+const submitBtn = document.getElementById('login-submit');
+const forgotLink = document.getElementById('login-forgot-link');
+
+// ถ้า login ค้างอยู่แล้ว ให้เด้งไปหน้า dashboard ของ role ตัวเองทันที ไม่ต้อง login ซ้ำ
+(async function redirectIfAlreadyLoggedIn() {
+  const session = supabaseClient.auth.getSession();
+  if (!session) return;
+
+  const { data: userData } = await supabaseClient.auth.getUser();
+  if (!userData) return;
+
+  const { data: profileRows } = await supabaseClient
+    .from('profiles')
+    .select('role', { filters: [['id', 'eq', userData.id]] });
+
+  if (profileRows && profileRows.length > 0) {
+    window.location.href = getHomeForRole(profileRows[0].role);
+  }
+})();
+
+function setLoading(isLoading) {
+  submitBtn.disabled = isLoading;
+  submitBtn.classList.toggle('is-loading', isLoading);
+  submitBtn.textContent = isLoading ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ';
+}
+
+form?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
+
+  if (!email || !password) {
+    Popup.warning('ข้อมูลไม่ครบถ้วน', 'กรุณากรอกอีเมลและรหัสผ่านให้ครบ');
+    return;
+  }
+
+  setLoading(true);
+
+  const { data: signInData, error: signInError } = await supabaseClient.auth.signInWithPassword(email, password);
+
+  if (signInError) {
+    setLoading(false);
+    Popup.error('เข้าสู่ระบบไม่สำเร็จ', 'อีเมลหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง');
+    return;
+  }
+
+  // ดึง role จาก profiles เพื่อ redirect ให้ถูกหน้า
+  const userId = signInData.user?.id;
+  const { data: profileRows, error: profileError } = await supabaseClient
+    .from('profiles')
+    .select('role,full_name', { filters: [['id', 'eq', userId]] });
+
+  setLoading(false);
+
+  if (profileError || !profileRows || profileRows.length === 0) {
+    Popup.error('ไม่พบข้อมูลผู้ใช้งาน', 'บัญชีนี้ยังไม่ได้ผูกกับข้อมูลผู้ใช้ในระบบ กรุณาติดต่อผู้ดูแลระบบ');
+    await supabaseClient.auth.signOut();
+    return;
+  }
+
+  const profile = profileRows[0];
+  Popup.toast('success', `ยินดีต้อนรับ ${profile.full_name}`);
+  setTimeout(() => {
+    window.location.href = getHomeForRole(profile.role);
+  }, 600);
+});
+
+forgotLink?.addEventListener('click', (e) => {
+  e.preventDefault();
+  document.getElementById('login-panel')?.classList.add('is-hidden');
+  document.getElementById('reset-panel')?.classList.remove('is-hidden');
+});

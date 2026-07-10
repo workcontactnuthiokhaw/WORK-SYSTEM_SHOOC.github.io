@@ -1,0 +1,18 @@
+{
+    "sourceFile": "js/shared/registration-limit.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1783618117295,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1783618117295,
+            "name": "Commit-0",
+            "content": "/**\r\n * registration-limit.js — ตรวจสอบที่นั่งคงเหลือ/ปิดรับสมัครอัตโนมัติ\r\n *\r\n * ⚠️ หมายเหตุสำคัญ: ฟังก์ชันในไฟล์นี้ใช้เพื่อ \"แสดงผล UX เบื้องต้น\" เท่านั้น\r\n * (เช่น แสดงจำนวนที่นั่งเหลือ, ปิดปุ่มลงทะเบียนล่วงหน้าก่อนยิง request จริง)\r\n * การบังคับที่นั่งจริงแบบกันชนกัน (race condition) ถูกทำที่ระดับฐานข้อมูลแล้ว\r\n * ผ่าน trigger `check_registration_capacity` ในไฟล์ 001_schema.sql\r\n * ห้ามพึ่งพาไฟล์นี้เป็นตัวตัดสินสุดท้ายว่าลงทะเบียนได้หรือไม่\r\n *\r\n * วิธีใช้:\r\n *   import { getActivityCapacityInfo, isAlreadyRegistered } from '../shared/registration-limit.js';\r\n *   const info = await getActivityCapacityInfo(activityId, maxParticipants);\r\n *   if (info.isFull) { ปิดปุ่มลงทะเบียน }\r\n */\r\n\r\nimport supabaseClient from '../config/supabase-client.js';\r\n\r\n/**\r\n * คืนค่าข้อมูลที่นั่งคงเหลือของกิจกรรม\r\n * @returns {Promise<{registeredCount:number, maxParticipants:number|null, remaining:number|null, isFull:boolean}>}\r\n */\r\nexport async function getActivityCapacityInfo(activityId, maxParticipants) {\r\n  const { data, error } = await supabaseClient\r\n    .from('registrations')\r\n    .select('id', {\r\n      filters: [\r\n        ['activity_id', 'eq', activityId],\r\n        ['status', 'in', '(registered,approved,pending_approval)'],\r\n      ],\r\n    });\r\n\r\n  const registeredCount = error ? 0 : (data || []).length;\r\n  const remaining = maxParticipants != null ? Math.max(0, maxParticipants - registeredCount) : null;\r\n  const isFull = maxParticipants != null && registeredCount >= maxParticipants;\r\n\r\n  return { registeredCount, maxParticipants, remaining, isFull };\r\n}\r\n\r\n/** เช็คว่านักเรียนคนนี้เคยลงทะเบียนกิจกรรมนี้ไปแล้วหรือยัง (กันลงซ้ำฝั่ง UX) */\r\nexport async function isAlreadyRegistered(studentId, activityId) {\r\n  const { data, error } = await supabaseClient.from('registrations').select('id,status', {\r\n    filters: [\r\n      ['student_id', 'eq', studentId],\r\n      ['activity_id', 'eq', activityId],\r\n    ],\r\n  });\r\n\r\n  if (error || !data || data.length === 0) return { registered: false, status: null };\r\n  return { registered: true, status: data[0].status };\r\n}\r\n\r\n/**\r\n * แสดง progress bar ที่นั่งคงเหลือ (คืน HTML string ใช้กับ .student-activity-seats-bar ใน student.css)\r\n */\r\nexport function renderSeatsBar(registeredCount, maxParticipants) {\r\n  if (maxParticipants == null) {\r\n    return `<div class=\"activity-card-seats\">ไม่จำกัดที่นั่ง</div>`;\r\n  }\r\n  const percent = Math.min(100, (registeredCount / maxParticipants) * 100);\r\n  return `\r\n    <div class=\"student-activity-seats-bar\">\r\n      <div class=\"student-activity-seats-fill\" style=\"width:${percent}%\"></div>\r\n    </div>\r\n    <div class=\"activity-card-seats\"><b>${registeredCount}</b> / ${maxParticipants} ที่นั่ง</div>\r\n  `;\r\n}"
+        }
+    ]
+}

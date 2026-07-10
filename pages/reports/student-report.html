@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>รายงานนักเรียน | Rmutr School - SAMS</title>
+
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css" />
+
+  <link rel="stylesheet" href="/css/base/reset.css" />
+  <link rel="stylesheet" href="/css/base/variables.css" />
+  <link rel="stylesheet" href="/css/base/typography.css" />
+  <link rel="stylesheet" href="/css/layout/sidebar.css" />
+  <link rel="stylesheet" href="/css/layout/topbar.css" />
+  <link rel="stylesheet" href="/css/layout/dashboard-layout.css" />
+  <link rel="stylesheet" href="/css/components/buttons.css" />
+  <link rel="stylesheet" href="/css/components/table.css" />
+  <link rel="stylesheet" href="/css/components/badge.css" />
+  <link rel="stylesheet" href="/css/components/loading.css" />
+  <link rel="stylesheet" href="/css/components/empty-state.css" />
+  <link rel="stylesheet" href="/css/components/popup.css" />
+  <link rel="stylesheet" href="/css/pages/reports.css" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+
+  <div class="app-shell" id="app-shell">
+
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <svg class="sidebar-logo-mark" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <rect width="40" height="40" rx="8" fill="#C8102E"/>
+          <path d="M20 10 L24 18 L33 19 L26 25 L28 34 L20 29 L12 34 L14 25 L7 19 L16 18 Z" fill="#fff"/>
+        </svg>
+        <div class="sidebar-logo-text">Rmutr School<small>School Activity Management</small></div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-section-label admin-only">ผู้ดูแลระบบ</div>
+        <a href="../admin/users.html" class="sidebar-link admin-only"><i class="fi fi-rr-users"></i><span>จัดการผู้ใช้งาน</span></a>
+        <a href="../admin/roles.html" class="sidebar-link admin-only"><i class="fi fi-rr-shield-check"></i><span>จัดการสิทธิ์</span></a>
+        <a href="../admin/activity-types.html" class="sidebar-link admin-only"><i class="fi fi-rr-tags"></i><span>ประเภทกิจกรรม</span></a>
+        <a href="../admin/academic-years.html" class="sidebar-link admin-only"><i class="fi fi-rr-calendar-lines"></i><span>ปีการศึกษา</span></a>
+        <a href="../admin/departments.html" class="sidebar-link admin-only"><i class="fi fi-rr-building"></i><span>ภาควิชา/แผนก</span></a>
+        <a href="../admin/classes.html" class="sidebar-link admin-only"><i class="fi fi-rr-chalkboard"></i><span>ห้องเรียน</span></a>
+        <a href="../admin/system-logs.html" class="sidebar-link admin-only"><i class="fi fi-rr-time-past"></i><span>System Logs</span></a>
+
+        <div class="sidebar-section-label teacher-only">ครู</div>
+        <a href="../teacher/activities.html" class="sidebar-link teacher-only"><i class="fi fi-rr-calendar-star"></i><span>กิจกรรมทั้งหมด</span></a>
+
+        <div class="sidebar-section-label">รายงาน</div>
+        <a href="./dashboard-report.html" class="sidebar-link"><i class="fi fi-rr-dashboard"></i><span>Dashboard</span></a>
+        <a href="./activity-report.html" class="sidebar-link"><i class="fi fi-rr-document"></i><span>รายงานกิจกรรม</span></a>
+        <a href="./student-report.html" class="sidebar-link is-active"><i class="fi fi-rr-graduation-cap"></i><span>รายงานนักเรียน</span></a>
+        <a href="./score-hours-report.html" class="sidebar-link"><i class="fi fi-rr-clock"></i><span>รายงานคะแนน/ชั่วโมง</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="sidebar-collapse-btn" id="sidebar-collapse-btn"><i class="fi fi-rr-angle-double-left"></i><span>ย่อเมนู</span></button>
+      </div>
+    </aside>
+
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+    <div class="app-main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="topbar-menu-btn" id="topbar-menu-btn" aria-label="เปิดเมนู"><i class="fi fi-rr-menu-burger"></i></button>
+          <div class="topbar-page-title">รายงานนักเรียน</div>
+        </div>
+        <div class="topbar-right">
+          <button class="topbar-icon-btn" aria-label="แจ้งเตือน"><i class="fi fi-rr-bell"></i><span class="badge-dot"></span></button>
+          <div class="topbar-user">
+            <div class="topbar-user-avatar" id="topbar-user-avatar">A</div>
+            <div class="topbar-user-info">
+              <div class="topbar-user-name" id="topbar-user-name">ผู้ใช้งาน</div>
+              <div class="topbar-user-role" id="topbar-user-role">-</div>
+            </div>
+          </div>
+          <button class="btn btn-icon" id="logout-btn" aria-label="ออกจากระบบ"><i class="fi fi-rr-sign-out-alt"></i></button>
+        </div>
+      </header>
+
+      <main class="app-content">
+        <div class="page-header">
+          <div>
+            <div class="page-header-title">รายงานนักเรียน</div>
+            <div class="page-header-subtitle">สรุปจำนวนกิจกรรมที่เข้าร่วม/คะแนน/ชั่วโมงสะสมต่อคน</div>
+          </div>
+          <div class="page-header-actions export-bar">
+            <button class="btn btn-secondary export-btn pdf" id="btn-export-pdf"><i class="fi fi-rr-file-pdf"></i> PDF</button>
+            <button class="btn btn-secondary export-btn excel" id="btn-export-excel"><i class="fi fi-rr-file-spreadsheet"></i> Excel</button>
+            <button class="btn btn-secondary export-btn csv" id="btn-export-csv"><i class="fi fi-rr-file"></i> CSV</button>
+          </div>
+        </div>
+
+        <div class="report-filter-bar">
+          <div class="report-filter-field">
+            <label for="filter-class">ห้องเรียน</label>
+            <select id="filter-class"></select>
+          </div>
+          <div class="report-filter-field">
+            <label for="filter-academic-year">ปีการศึกษา</label>
+            <select id="filter-academic-year"></select>
+          </div>
+          <button class="btn btn-primary" id="btn-apply-filter"><i class="fi fi-rr-filter"></i> กรองข้อมูล</button>
+        </div>
+
+        <div class="table-card">
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>รหัสนักเรียน</th>
+                  <th>ชื่อ-สกุล</th>
+                  <th>ห้องเรียน</th>
+                  <th>จำนวนกิจกรรมที่เข้าร่วม</th>
+                  <th>ชั่วโมงสะสม</th>
+                  <th>คะแนนสะสม</th>
+                </tr>
+              </thead>
+              <tbody id="data-table-body"></tbody>
+            </table>
+          </div>
+          <div id="loading-state" class="is-hidden loading-inline">
+            <div class="spinner"></div>
+          </div>
+          <div id="empty-state" class="empty-state is-hidden">
+            <div class="empty-state-icon"><i class="fi fi-rr-graduation-cap"></i></div>
+            <div class="empty-state-title">ไม่พบข้อมูลนักเรียน</div>
+            <div class="empty-state-message">ลองปรับตัวกรองด้านบนแล้วค้นหาใหม่อีกครั้ง</div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script type="module">
+    import '../../js/auth/logout.js';
+    import '../../js/shared/layout.js';
+    import '../../js/reports/student-report.js';
+  </script>
+</body>
+</html>

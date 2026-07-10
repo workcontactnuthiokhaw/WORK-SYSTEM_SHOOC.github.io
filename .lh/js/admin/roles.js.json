@@ -1,0 +1,18 @@
+{
+    "sourceFile": "js/admin/roles.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1783579636256,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1783579636256,
+            "name": "Commit-0",
+            "content": "/**\r\n * roles.js — หน้าจัดการสิทธิ์ (/pages/admin/roles.html)\r\n *\r\n * หมายเหตุสำคัญ: ระบบนี้ไม่มีตาราง `roles` แยกต่างหาก เพราะ role ถูกกำหนดตายตัว\r\n * เป็น 3 ค่า (admin/teacher/student) ผ่าน CHECK constraint ในตาราง `profiles`\r\n * และสิทธิ์การเข้าถึงข้อมูลจริงถูก \"บังคับที่ชั้น Supabase Row Level Security (RLS)\"\r\n * ไม่ใช่ตารางที่แก้ไขได้จาก UI (ตามหลัก sensitive logic ต้องพึ่ง RLS ไม่ใช่แค่ซ่อนปุ่มฝั่ง client)\r\n *\r\n * หน้านี้จึงทำหน้าที่เป็น \"ตารางอ้างอิงสิทธิ์\" (read-only) ให้ admin ดูภาพรวมว่าแต่ละ role\r\n * ทำอะไรได้บ้าง ถ้าต้องการเปลี่ยนสิทธิ์จริง ต้องแก้ไข RLS policy ในไฟล์ 001_schema.sql\r\n *\r\n * Element ID ที่คาดหวัง: #roles-matrix-body\r\n */\r\n\r\nimport { requireAuth } from '../auth/auth-guard.js';\r\n\r\nconst ROLE_PERMISSIONS = [\r\n  {\r\n    role: 'admin',\r\n    label: 'ผู้ดูแลระบบ (Admin)',\r\n    permissions: [\r\n      'จัดการผู้ใช้งานและกำหนด role ได้ทั้งหมด',\r\n      'จัดการ master data: ประเภทกิจกรรม, ปีการศึกษา, ภาควิชา, ห้องเรียน',\r\n      'ดู/แก้ไขข้อมูลกิจกรรมทั้งหมดในระบบ',\r\n      'ดูรายงานทุกประเภทและ System Logs',\r\n    ],\r\n  },\r\n  {\r\n    role: 'teacher',\r\n    label: 'ครู (Teacher)',\r\n    permissions: [\r\n      'สร้าง/แก้ไข/ลบกิจกรรม เฉพาะกิจกรรมที่ตนเองรับผิดชอบ',\r\n      'ดูกิจกรรมทั้งหมดในระบบได้ (view-only สำหรับกิจกรรมของคนอื่น)',\r\n      'จัดการรายชื่อนักเรียนที่ลงทะเบียน อนุมัติ/ปฏิเสธ',\r\n      'เช็กชื่อ ให้คะแนน บันทึกชั่วโมงกิจกรรม',\r\n      'ดูรายงานกิจกรรม/นักเรียนที่เกี่ยวข้อง',\r\n    ],\r\n  },\r\n  {\r\n    role: 'student',\r\n    label: 'นักเรียน (Student)',\r\n    permissions: [\r\n      'ลงทะเบียน/ยกเลิกลงทะเบียนกิจกรรม (ก่อนวันเริ่มกิจกรรม)',\r\n      'เช็กชื่อด้วยการ scan QR Code',\r\n      'ดูสถานะการลงทะเบียนและประวัติของตนเอง',\r\n      'ดูคะแนน/ชั่วโมงสะสม และดาวน์โหลดใบประกาศนียบัตรของตนเอง',\r\n    ],\r\n  },\r\n];\r\n\r\nasync function init() {\r\n  const profile = await requireAuth(['admin']);\r\n  if (!profile) return;\r\n  renderMatrix();\r\n}\r\n\r\nfunction renderMatrix() {\r\n  const tbody = document.getElementById('roles-matrix-body');\r\n  if (!tbody) return;\r\n\r\n  tbody.innerHTML = '';\r\n  ROLE_PERMISSIONS.forEach((roleInfo) => {\r\n    const tr = document.createElement('tr');\r\n    const permissionList = roleInfo.permissions.map((p) => `<li>${escapeHtml(p)}</li>`).join('');\r\n    tr.innerHTML = `\r\n      <td><span class=\"role-tag role-${roleInfo.role}\">${escapeHtml(roleInfo.label)}</span></td>\r\n      <td><ul class=\"role-permission-list\">${permissionList}</ul></td>\r\n    `;\r\n    tbody.appendChild(tr);\r\n  });\r\n}\r\n\r\nfunction escapeHtml(str) {\r\n  const div = document.createElement('div');\r\n  div.textContent = str ?? '';\r\n  return div.innerHTML;\r\n}\r\n\r\ninit();"
+        }
+    ]
+}

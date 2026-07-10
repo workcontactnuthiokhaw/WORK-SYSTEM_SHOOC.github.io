@@ -1,0 +1,151 @@
+/* ============================================================
+   sidebar.css — เมนูด้านข้าง ใช้ร่วมกันทุกหน้าหลัง login
+   โทนเข้ม (สีสูง contrast กับพื้นหลังขาวของหน้าเนื้อหา) + accent แดงตอน active
+   ============================================================ */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--sidebar-width);
+  background: var(--color-sidebar-bg);
+  color: var(--color-sidebar-text);
+  display: flex;
+  flex-direction: column;
+  z-index: 40;
+  transition: width var(--transition-base), transform var(--transition-base);
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-logo img,
+.sidebar-logo .sidebar-logo-mark {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+
+.sidebar-logo-text {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.sidebar-logo-text small {
+  display: block;
+  font-size: var(--fs-tiny);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-4) var(--space-3);
+}
+
+.sidebar-section-label {
+  font-size: var(--fs-tiny);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.4);
+  padding: var(--space-3) var(--space-2) var(--space-2);
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 11px var(--space-3);
+  border-radius: var(--radius-md);
+  color: var(--color-sidebar-text);
+  font-size: var(--fs-body);
+  margin-bottom: 2px;
+  transition: background var(--transition-fast), color var(--transition-fast);
+  white-space: nowrap;
+}
+
+.sidebar-link i { font-size: 18px; width: 20px; text-align: center; flex-shrink: 0; }
+
+.sidebar-link:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.sidebar-link.is-active {
+  background: var(--color-sidebar-active);
+  color: #fff;
+  font-weight: 500;
+}
+
+.sidebar-footer {
+  padding: var(--space-4);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-collapse-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: var(--fs-small);
+  width: 100%;
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+}
+.sidebar-collapse-btn:hover { background: rgba(255, 255, 255, 0.06); color: #fff; }
+
+/* ---------- สถานะย่อ (collapsed) ---------- */
+.sidebar.is-collapsed { width: var(--sidebar-width-collapsed); }
+.sidebar.is-collapsed .sidebar-logo-text,
+.sidebar.is-collapsed .sidebar-section-label,
+.sidebar.is-collapsed .sidebar-link span,
+.sidebar.is-collapsed .sidebar-collapse-btn span {
+  display: none;
+}
+.sidebar.is-collapsed .sidebar-link { justify-content: center; }
+
+/* ---------- Mobile: sidebar เป็น off-canvas drawer ---------- */
+@media (max-width: 1024px) {
+  .sidebar {
+    transform: translateX(-100%);
+    width: min(280px, 80vw);
+    box-shadow: var(--shadow-lg);
+  }
+  .sidebar.is-open { transform: translateX(0); }
+}
+
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 35;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-base);
+}
+.sidebar-backdrop.is-visible { opacity: 1; pointer-events: auto; }
+
+@media (min-width: 1025px) {
+  .sidebar-backdrop { display: none; }
+}
+
+/* ---------- ซ่อน/แสดงเมนูตามสิทธิ์ (ใช้ในหน้าที่ทุก role เข้าถึงร่วมกัน เช่น หน้ารายงาน) ----------
+   layout.js จะตั้งค่า <html data-user-role="admin|teacher|student"> ให้อัตโนมัติหลัง login ---------- */
+:root[data-user-role="teacher"] .admin-only,
+:root[data-user-role="student"] .admin-only,
+:root[data-user-role="student"] .teacher-only,
+:root[data-user-role="admin"] .student-only,
+:root[data-user-role="teacher"] .student-only {
+  display: none !important;
+}

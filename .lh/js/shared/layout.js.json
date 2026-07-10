@@ -1,0 +1,22 @@
+{
+    "sourceFile": "js/shared/layout.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1783636631549,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1783663105910,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,9 +36,9 @@\n   sidebar?.classList.toggle('is-collapsed');\r\n   appShell?.classList.toggle('is-sidebar-collapsed');\r\n });\r\n \r\n-// แสดงชื่อ/role ผู้ใช้ปัจจุบันที่ topbar (auth-guard.js เก็บ profile ไว้ใน sessionStorage แล้ว)\r\n+// แสดงชื่อ/role ผู้ใช้ปัจจุบันที่ topbar + ตั้ง data-user-role ให้ CSS ใช้ซ่อน/แสดงเมนูตามสิทธิ์\r\n (function renderCurrentUser() {\r\n   const raw = sessionStorage.getItem('sams_current_profile');\r\n   if (!raw) return;\r\n \r\n@@ -52,8 +52,11 @@\n \r\n     if (nameEl) nameEl.textContent = profile.full_name;\r\n     if (roleEl) roleEl.textContent = roleLabels[profile.role] || profile.role;\r\n     if (avatarEl) avatarEl.textContent = (profile.full_name || '?').charAt(0);\r\n+\r\n+    // ใช้ selector เช่น :root[data-user-role=\"student\"] .admin-only { display:none } ใน sidebar.css\r\n+    document.documentElement.dataset.userRole = profile.role;\r\n   } catch {\r\n     // ไม่ต้องทำอะไร ถ้า parse ไม่สำเร็จ\r\n   }\r\n })();\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1783636631549,
+            "name": "Commit-0",
+            "content": "/**\r\n * layout.js — จัดการพฤติกรรมร่วมของ shell หลังบ้านทุกหน้า (sidebar + topbar)\r\n * ไม่ได้อยู่ในลิสต์ไฟล์ตั้งต้น แต่จำเป็นเพราะทุกหน้าหลัง login ต้องมี sidebar/topbar ที่ทำงานได้จริง\r\n *\r\n * วิธีใช้: import ไว้ท้ายไฟล์ HTML ทุกหน้าหลัง login (พร้อมกับ auth-guard/logout)\r\n *   <script type=\"module\" src=\"/js/shared/layout.js\"></script>\r\n *\r\n * Element IDs ที่คาดหวัง: #sidebar, #sidebar-backdrop, #topbar-menu-btn,\r\n *   #sidebar-collapse-btn, #app-shell, #topbar-user-name, #topbar-user-role, #topbar-user-avatar\r\n */\r\n\r\nconst sidebar = document.getElementById('sidebar');\r\nconst backdrop = document.getElementById('sidebar-backdrop');\r\nconst menuBtn = document.getElementById('topbar-menu-btn');\r\nconst collapseBtn = document.getElementById('sidebar-collapse-btn');\r\nconst appShell = document.getElementById('app-shell');\r\n\r\nfunction openSidebar() {\r\n  sidebar?.classList.add('is-open');\r\n  backdrop?.classList.add('is-visible');\r\n}\r\n\r\nfunction closeSidebar() {\r\n  sidebar?.classList.remove('is-open');\r\n  backdrop?.classList.remove('is-visible');\r\n}\r\n\r\nmenuBtn?.addEventListener('click', () => {\r\n  if (sidebar?.classList.contains('is-open')) closeSidebar();\r\n  else openSidebar();\r\n});\r\n\r\nbackdrop?.addEventListener('click', closeSidebar);\r\n\r\ncollapseBtn?.addEventListener('click', () => {\r\n  sidebar?.classList.toggle('is-collapsed');\r\n  appShell?.classList.toggle('is-sidebar-collapsed');\r\n});\r\n\r\n// แสดงชื่อ/role ผู้ใช้ปัจจุบันที่ topbar (auth-guard.js เก็บ profile ไว้ใน sessionStorage แล้ว)\r\n(function renderCurrentUser() {\r\n  const raw = sessionStorage.getItem('sams_current_profile');\r\n  if (!raw) return;\r\n\r\n  try {\r\n    const profile = JSON.parse(raw);\r\n    const nameEl = document.getElementById('topbar-user-name');\r\n    const roleEl = document.getElementById('topbar-user-role');\r\n    const avatarEl = document.getElementById('topbar-user-avatar');\r\n\r\n    const roleLabels = { admin: 'ผู้ดูแลระบบ', teacher: 'ครู', student: 'นักเรียน' };\r\n\r\n    if (nameEl) nameEl.textContent = profile.full_name;\r\n    if (roleEl) roleEl.textContent = roleLabels[profile.role] || profile.role;\r\n    if (avatarEl) avatarEl.textContent = (profile.full_name || '?').charAt(0);\r\n  } catch {\r\n    // ไม่ต้องทำอะไร ถ้า parse ไม่สำเร็จ\r\n  }\r\n})();"
+        }
+    ]
+}

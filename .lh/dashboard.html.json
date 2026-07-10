@@ -1,0 +1,18 @@
+{
+    "sourceFile": "dashboard.html",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1783578889292,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1783578889292,
+            "name": "Commit-0",
+            "content": "<!DOCTYPE html>\r\n<html lang=\"th\">\r\n<head>\r\n  <meta charset=\"UTF-8\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\r\n  <title>กำลังเข้าสู่ระบบ... | Rmutr School - SAMS</title>\r\n\r\n  <link rel=\"stylesheet\" href=\"https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css\" />\r\n\r\n  <link rel=\"stylesheet\" href=\"/css/base/reset.css\" />\r\n  <link rel=\"stylesheet\" href=\"/css/base/variables.css\" />\r\n  <link rel=\"stylesheet\" href=\"/css/base/typography.css\" />\r\n  <link rel=\"stylesheet\" href=\"/css/components/loading.css\" />\r\n</head>\r\n<body>\r\n\r\n  <!--\r\n    หน้านี้ไม่มี UI ถาวร เป็นแค่จุดพักหลัง login\r\n    dashboard-redirect.js จะเช็ค session แล้วส่งต่อไปหน้า dashboard ที่ตรงกับ role โดยอัตโนมัติ:\r\n      admin   -> /pages/reports/dashboard-report.html\r\n      teacher -> /pages/teacher/activities.html\r\n      student -> /pages/student/activities-list.html\r\n    ถ้ายังไม่ login จะถูกเด้งกลับไปหน้า /index.html\r\n  -->\r\n\r\n  <main class=\"loading-fullpage\">\r\n    <div class=\"spinner lg\"></div>\r\n    <p class=\"loading-fullpage-label\">กำลังตรวจสอบสิทธิ์การใช้งาน...</p>\r\n  </main>\r\n\r\n  <script type=\"module\" src=\"/js/dashboard-redirect.js\"></script>\r\n</body>\r\n</html>"
+        }
+    ]
+}

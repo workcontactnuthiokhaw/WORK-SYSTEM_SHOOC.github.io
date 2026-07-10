@@ -1,0 +1,18 @@
+{
+    "sourceFile": "css/components/badge.css",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1783579045960,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1783579045960,
+            "name": "Commit-0",
+            "content": "/* ============================================================\r\n   badge.css — Status Badge ใช้รูปแบบเดียวกันทั้งระบบ\r\n   Active -> เขียว | Pending -> เหลือง | Completed -> น้ำเงิน | Cancelled -> แดง\r\n   render จริงผ่าน js/shared/status-badge.js เพื่อความสอดคล้องกันทุกหน้า\r\n   ============================================================ */\r\n\r\n.badge {\r\n  display: inline-flex;\r\n  align-items: center;\r\n  gap: 6px;\r\n  padding: 4px 12px;\r\n  border-radius: var(--radius-full);\r\n  font-size: var(--fs-tiny);\r\n  font-weight: 500;\r\n  line-height: 1.6;\r\n  white-space: nowrap;\r\n}\r\n\r\n.badge::before {\r\n  content: '';\r\n  width: 6px;\r\n  height: 6px;\r\n  border-radius: 50%;\r\n  background: currentColor;\r\n}\r\n\r\n/* ---------- สถานะหลักตาม spec ---------- */\r\n.badge-active,\r\n.badge-registered,\r\n.badge-approved,\r\n.badge-published {\r\n  background: var(--color-status-active-bg);\r\n  color: var(--color-status-active);\r\n}\r\n\r\n.badge-pending,\r\n.badge-pending_approval,\r\n.badge-draft {\r\n  background: var(--color-status-pending-bg);\r\n  color: var(--color-status-pending);\r\n}\r\n\r\n.badge-completed,\r\n.badge-registration_closed {\r\n  background: var(--color-status-completed-bg);\r\n  color: var(--color-status-completed);\r\n}\r\n\r\n.badge-cancelled,\r\n.badge-rejected,\r\n.badge-absent {\r\n  background: var(--color-status-cancelled-bg);\r\n  color: var(--color-status-cancelled);\r\n}\r\n\r\n/* ---------- ขนาดย่อย (ใช้ในตารางแถวแคบ) ---------- */\r\n.badge-sm {\r\n  padding: 2px 8px;\r\n  font-size: 10px;\r\n}"
+        }
+    ]
+}

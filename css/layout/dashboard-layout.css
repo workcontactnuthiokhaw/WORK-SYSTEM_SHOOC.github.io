@@ -1,0 +1,159 @@
+/* ============================================================
+   dashboard-layout.css — โครง shell หลักของทุกหน้าหลัง login
+   ประกอบด้วย: sidebar (ซ้าย) + topbar (บน) + main content (เนื้อหา)
+   ทุกหน้า admin/teacher/student/reports ใช้โครงนี้ร่วมกัน
+   ============================================================ */
+
+.app-shell {
+  min-height: 100vh;
+  background: var(--color-bg-canvas);
+}
+
+.app-main {
+  margin-left: var(--sidebar-width);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left var(--transition-base);
+}
+
+.app-shell.is-sidebar-collapsed .app-main {
+  margin-left: var(--sidebar-width-collapsed);
+}
+
+.app-content {
+  flex: 1;
+  padding: var(--space-5);
+  max-width: 1440px;
+  width: 100%;
+}
+
+/* ---------- Page header (ใต้ topbar เหนือเนื้อหา) ---------- */
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+  flex-wrap: wrap;
+}
+
+.page-header-title {
+  font-size: var(--fs-h1);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.page-header-subtitle {
+  color: var(--color-text-muted);
+  font-size: var(--fs-small);
+}
+
+.page-header-actions {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+/* ---------- Summary cards (ทุกหน้าหลัง login ต้องมี) ---------- */
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.summary-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.summary-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.summary-card-value {
+  font-size: var(--fs-h1);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.summary-card-label {
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.summary-card-trend {
+  font-size: var(--fs-tiny);
+  font-weight: 500;
+  margin-top: var(--space-2);
+}
+.summary-card-trend.up { color: var(--color-status-active); }
+.summary-card-trend.down { color: var(--color-status-cancelled); }
+
+/* ---------- Chart area ---------- */
+.chart-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin-bottom: var(--space-5);
+}
+
+.chart-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-4);
+}
+
+/* ---------- Content section generic ---------- */
+.content-section {
+  margin-bottom: var(--space-5);
+}
+
+.content-section-title {
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  margin-bottom: var(--space-3);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .app-main { margin-left: 0; }
+  .app-shell.is-sidebar-collapsed .app-main { margin-left: 0; }
+  .charts-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .app-content { padding: var(--space-4); }
+  .summary-cards { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+}
+
+@media (max-width: 480px) {
+  .page-header { flex-direction: column; align-items: stretch; }
+  .page-header-actions { justify-content: stretch; }
+  .page-header-actions .btn { flex: 1; }
+}

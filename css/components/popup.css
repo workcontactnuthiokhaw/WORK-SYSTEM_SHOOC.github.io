@@ -1,0 +1,143 @@
+/* ============================================================
+   popup.css — Pop-up Notification กลางของทั้งระบบ
+   ใช้แทน alert()/confirm() ของ browser ทั้งหมด
+   ประเภท: success, error, warning, information, confirm
+   ============================================================ */
+
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 16, 21, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-base);
+}
+
+.popup-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.popup-modal {
+  background: var(--color-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: min(420px, 92vw);
+  padding: var(--space-6) var(--space-5) var(--space-5);
+  text-align: center;
+  transform: translateY(12px) scale(0.98);
+  transition: transform var(--transition-base);
+}
+
+.popup-overlay.is-open .popup-modal {
+  transform: translateY(0) scale(1);
+}
+
+.popup-icon-wrap {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-4);
+  font-size: 28px;
+}
+
+.popup-icon-wrap.success { background: var(--color-status-active-bg); color: var(--color-status-active); }
+.popup-icon-wrap.error   { background: var(--color-status-cancelled-bg); color: var(--color-status-cancelled); }
+.popup-icon-wrap.warning { background: var(--color-status-pending-bg); color: var(--color-status-pending); }
+.popup-icon-wrap.information { background: var(--color-status-completed-bg); color: var(--color-status-completed); }
+.popup-icon-wrap.confirm { background: var(--color-primary-light); color: var(--color-primary); }
+
+.popup-title {
+  font-size: var(--fs-h2);
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+}
+
+.popup-message {
+  color: var(--color-text-muted);
+  font-size: var(--fs-body);
+  margin-bottom: var(--space-5);
+  white-space: pre-line;
+}
+
+.popup-actions {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
+}
+
+.popup-btn {
+  padding: 10px 22px;
+  border-radius: var(--radius-md);
+  font-size: var(--fs-body);
+  font-weight: 500;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.popup-btn:active { transform: scale(0.97); }
+
+.popup-btn-primary {
+  background: var(--color-primary);
+  color: #fff;
+}
+.popup-btn-primary:hover { background: var(--color-primary-hover); }
+
+.popup-btn-secondary {
+  background: var(--color-bg-canvas);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+.popup-btn-secondary:hover { background: #EFEFF1; }
+
+/* ---------- Toast (แจ้งเตือนสั้นๆ มุมจอ ใช้กับ success/error เบาๆ) ---------- */
+.toast-stack {
+  position: fixed;
+  top: var(--space-5);
+  right: var(--space-5);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-width: min(360px, 90vw);
+}
+
+.toast {
+  background: var(--color-bg);
+  border-left: 4px solid var(--color-status-active);
+  box-shadow: var(--shadow-md);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  font-size: var(--fs-small);
+  animation: toast-in var(--transition-base);
+}
+
+.toast.error   { border-left-color: var(--color-status-cancelled); }
+.toast.warning { border-left-color: var(--color-status-pending); }
+.toast.information { border-left-color: var(--color-status-completed); }
+
+.toast i { font-size: 18px; margin-top: 1px; }
+.toast.success i { color: var(--color-status-active); }
+.toast.error i   { color: var(--color-status-cancelled); }
+.toast.warning i { color: var(--color-status-pending); }
+.toast.information i { color: var(--color-status-completed); }
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@media (max-width: 480px) {
+  .popup-modal { padding: var(--space-5) var(--space-4) var(--space-4); }
+  .popup-actions { flex-direction: column-reverse; }
+  .popup-btn { width: 100%; }
+}

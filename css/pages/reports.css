@@ -1,0 +1,231 @@
+/* ============================================================
+   reports.css — สไตล์เฉพาะหน้ารายงาน
+   (dashboard-report, activity-report, student-report, score-hours-report)
+   ============================================================ */
+
+/* ---------- Monthly bar chart (วาดด้วย div ธรรมดา ไม่พึ่ง library) ---------- */
+.monthly-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-3);
+  height: 180px;
+  padding-top: var(--space-4);
+}
+
+.monthly-bar-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.monthly-bar-track {
+  flex: 1;
+  width: 100%;
+  max-width: 36px;
+  display: flex;
+  align-items: flex-end;
+  background: var(--color-bg-canvas);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.monthly-bar-fill {
+  width: 100%;
+  background: var(--color-primary);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  transition: height var(--transition-base);
+  min-height: 2px;
+}
+
+.monthly-bar-value {
+  font-size: var(--fs-tiny);
+  font-weight: 600;
+  margin-top: var(--space-2);
+}
+
+.monthly-bar-label {
+  font-size: var(--fs-tiny);
+  color: var(--color-text-muted);
+}
+
+/* ---------- Type breakdown horizontal bars ---------- */
+.type-chart-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 70px;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+  font-size: var(--fs-small);
+}
+
+.type-chart-row-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.type-chart-row-label .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.type-chart-row-track {
+  height: 8px;
+  background: var(--color-bg-canvas);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.type-chart-row-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+}
+
+.type-chart-row-value {
+  font-size: var(--fs-tiny);
+  color: var(--color-text-muted);
+  text-align: right;
+}
+
+/* ---------- แถบ export (PDF/Excel/CSV) ---------- */
+.export-bar {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.export-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.export-btn.pdf i { color: var(--color-status-cancelled); }
+.export-btn.excel i { color: var(--color-status-active); }
+.export-btn.csv i { color: var(--color-status-completed); }
+
+/* ---------- Filter bar ของหน้ารายงาน ---------- */
+.report-filter-bar {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: flex-end;
+  margin-bottom: var(--space-5);
+}
+
+.report-filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 160px;
+}
+
+.report-filter-field-grow {
+  flex: 1;
+  min-width: 200px;
+}
+
+.report-filter-field label {
+  font-size: var(--fs-tiny);
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.report-filter-field select,
+.report-filter-field input {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 9px 12px;
+  font-size: var(--fs-small);
+}
+
+/* ---------- Chart card grid เฉพาะหน้า dashboard-report ---------- */
+.report-chart-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+
+.report-chart-title {
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  margin-bottom: var(--space-4);
+}
+
+.report-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+  font-size: var(--fs-tiny);
+  color: var(--color-text-muted);
+}
+
+.report-chart-legend span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.report-chart-legend .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* ---------- รายการกิจกรรมล่าสุด (recent activities feed) ---------- */
+.recent-activity-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.recent-activity-item:last-child { border-bottom: none; }
+
+.recent-activity-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.recent-activity-title {
+  font-size: var(--fs-small);
+  font-weight: 500;
+}
+
+.recent-activity-time {
+  font-size: var(--fs-tiny);
+  color: var(--color-text-faint);
+}
+
+/* ---------- Print-friendly (ตอน export/print รายงาน) ---------- */
+@media print {
+  .sidebar, .topbar, .report-filter-bar, .export-bar, .page-header-actions {
+    display: none !important;
+  }
+  .app-main { margin-left: 0 !important; }
+}
+
+@media (max-width: 768px) {
+  .report-filter-bar { flex-direction: column; align-items: stretch; }
+  .report-filter-field { min-width: 0; }
+}

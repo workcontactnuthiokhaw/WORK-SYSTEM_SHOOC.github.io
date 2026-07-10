@@ -1,0 +1,18 @@
+{
+    "sourceFile": "js/teacher/qr-generate.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1783636139769,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1783636139769,
+            "name": "Commit-0",
+            "content": "/**\r\n * qr-generate.js — แสดง/พิมพ์ QR Code ของกิจกรรม /pages/teacher/qr-generate.html?id=xxx\r\n * QR เข้ารหัสเป็นค่า activities.id (UUID) ตรงๆ (ต้องตรงกับที่ js/student/qr-scan.js คาดหวัง)\r\n *\r\n * ต้องโหลด library \"qrcode\" ผ่าน CDN ในหน้า HTML ก่อนใช้งาน:\r\n *   <script src=\"https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js\"></script>\r\n *\r\n * Element IDs ที่คาดหวัง:\r\n *   #qr-canvas, #qr-activity-name, #qr-activity-code, #btn-print\r\n */\r\n\r\nimport { requireAuth } from '../auth/auth-guard.js';\r\nimport supabaseClient from '../config/supabase-client.js';\r\nimport Popup from '../shared/popup.js';\r\n\r\nconst canvas = document.getElementById('qr-canvas');\r\nconst nameEl = document.getElementById('qr-activity-name');\r\nconst codeEl = document.getElementById('qr-activity-code');\r\nconst printBtn = document.getElementById('btn-print');\r\n\r\nasync function init() {\r\n  const profile = await requireAuth(['admin', 'teacher']);\r\n  if (!profile) return;\r\n\r\n  const params = new URLSearchParams(window.location.search);\r\n  const activityId = params.get('id');\r\n  if (!activityId) {\r\n    Popup.error('ไม่พบกิจกรรม', 'ไม่ได้ระบุกิจกรรมที่ต้องการสร้าง QR Code');\r\n    window.location.href = './activities.html';\r\n    return;\r\n  }\r\n\r\n  const { data, error } = await supabaseClient\r\n    .from('activities')\r\n    .select('id,name,activity_code,qr_code', { filters: [['id', 'eq', activityId]] });\r\n\r\n  if (error || !data || data.length === 0) {\r\n    Popup.error('ไม่พบกิจกรรม', 'ไม่พบข้อมูลกิจกรรมนี้ในระบบ');\r\n    return;\r\n  }\r\n\r\n  const activity = data[0];\r\n  nameEl && (nameEl.textContent = activity.name);\r\n  codeEl && (codeEl.textContent = activity.activity_code);\r\n\r\n  // ถ้ายังไม่เคยตั้ง qr_code ให้ตั้งเป็น activity.id เอง (เข้ารหัสเรียบง่าย ตรวจสอบกับตารางกิจกรรมได้โดยตรง)\r\n  if (!activity.qr_code) {\r\n    await supabaseClient.from('activities').update({ qr_code: activity.id }, [['id', 'eq', activity.id]]);\r\n  }\r\n\r\n  renderQrCode(activity.id);\r\n}\r\n\r\nfunction renderQrCode(content) {\r\n  if (!window.QRCode) {\r\n    Popup.error('ไม่สามารถสร้าง QR Code ได้', 'ไม่พบ library qrcode กรุณาโหลด CDN ในหน้านี้ก่อน');\r\n    return;\r\n  }\r\n  window.QRCode.toCanvas(canvas, content, { width: 260, margin: 2, color: { dark: '#1A1A1E', light: '#FFFFFF' } }, (err) => {\r\n    if (err) {\r\n      Popup.error('สร้าง QR Code ไม่สำเร็จ', 'เกิดข้อผิดพลาดในการสร้าง QR Code');\r\n    }\r\n  });\r\n}\r\n\r\nprintBtn?.addEventListener('click', () => {\r\n  window.print();\r\n});\r\n\r\ninit();"
+        }
+    ]
+}

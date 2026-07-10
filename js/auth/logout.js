@@ -1,0 +1,21 @@
+/**
+ * logout.js — จัดการปุ่มออกจากระบบ ใช้ import ร่วมกันได้จากทุกหน้า (topbar)
+ *
+ * วิธีใช้: <button id="logout-btn">ออกจากระบบ</button>
+ *   import '../auth/logout.js'; (หรือ path ที่ตรงกับตำแหน่งไฟล์)
+ */
+
+import supabaseClient from '../config/supabase-client.js';
+import Popup from '../shared/popup.js';
+
+document.addEventListener('click', async (e) => {
+  const btn = e.target.closest('#logout-btn');
+  if (!btn) return;
+
+  const confirmed = await Popup.confirm('ออกจากระบบ', 'ต้องการออกจากระบบใช่หรือไม่?');
+  if (!confirmed) return;
+
+  await supabaseClient.auth.signOut();
+  sessionStorage.removeItem('sams_current_profile');
+  window.location.href = '/index.html';
+});

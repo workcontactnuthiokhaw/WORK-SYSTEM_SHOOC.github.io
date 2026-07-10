@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>จัดการสิทธิ์ | Rmutr School - SAMS</title>
+
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css" />
+
+  <link rel="stylesheet" href="/css/base/reset.css" />
+  <link rel="stylesheet" href="/css/base/variables.css" />
+  <link rel="stylesheet" href="/css/base/typography.css" />
+  <link rel="stylesheet" href="/css/layout/sidebar.css" />
+  <link rel="stylesheet" href="/css/layout/topbar.css" />
+  <link rel="stylesheet" href="/css/layout/dashboard-layout.css" />
+  <link rel="stylesheet" href="/css/components/buttons.css" />
+  <link rel="stylesheet" href="/css/components/table.css" />
+  <link rel="stylesheet" href="/css/components/badge.css" />
+  <link rel="stylesheet" href="/css/components/loading.css" />
+  <link rel="stylesheet" href="/css/components/popup.css" />
+  <link rel="stylesheet" href="/css/pages/admin.css" />
+</head>
+<body>
+
+  <div class="app-shell" id="app-shell">
+
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <svg class="sidebar-logo-mark" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <rect width="40" height="40" rx="8" fill="#C8102E"/>
+          <path d="M20 10 L24 18 L33 19 L26 25 L28 34 L20 29 L12 34 L14 25 L7 19 L16 18 Z" fill="#fff"/>
+        </svg>
+        <div class="sidebar-logo-text">Rmutr School<small>School Activity Management</small></div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-section-label">ผู้ดูแลระบบ</div>
+        <a href="./users.html" class="sidebar-link"><i class="fi fi-rr-users"></i><span>จัดการผู้ใช้งาน</span></a>
+        <a href="./roles.html" class="sidebar-link is-active"><i class="fi fi-rr-shield-check"></i><span>จัดการสิทธิ์</span></a>
+        <a href="./activity-types.html" class="sidebar-link"><i class="fi fi-rr-tags"></i><span>ประเภทกิจกรรม</span></a>
+        <a href="./academic-years.html" class="sidebar-link"><i class="fi fi-rr-calendar-lines"></i><span>ปีการศึกษา</span></a>
+        <a href="./departments.html" class="sidebar-link"><i class="fi fi-rr-building"></i><span>ภาควิชา/แผนก</span></a>
+        <a href="./classes.html" class="sidebar-link"><i class="fi fi-rr-chalkboard"></i><span>ห้องเรียน</span></a>
+        <a href="./system-logs.html" class="sidebar-link"><i class="fi fi-rr-time-past"></i><span>System Logs</span></a>
+
+        <div class="sidebar-section-label">รายงาน</div>
+        <a href="../reports/dashboard-report.html" class="sidebar-link"><i class="fi fi-rr-dashboard"></i><span>Dashboard</span></a>
+        <a href="../reports/activity-report.html" class="sidebar-link"><i class="fi fi-rr-document"></i><span>รายงานกิจกรรม</span></a>
+        <a href="../reports/student-report.html" class="sidebar-link"><i class="fi fi-rr-graduation-cap"></i><span>รายงานนักเรียน</span></a>
+        <a href="../reports/score-hours-report.html" class="sidebar-link"><i class="fi fi-rr-clock"></i><span>รายงานคะแนน/ชั่วโมง</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="sidebar-collapse-btn" id="sidebar-collapse-btn"><i class="fi fi-rr-angle-double-left"></i><span>ย่อเมนู</span></button>
+      </div>
+    </aside>
+
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+    <div class="app-main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="topbar-menu-btn" id="topbar-menu-btn" aria-label="เปิดเมนู"><i class="fi fi-rr-menu-burger"></i></button>
+          <div class="topbar-page-title">จัดการสิทธิ์</div>
+        </div>
+        <div class="topbar-right">
+          <button class="topbar-icon-btn" aria-label="แจ้งเตือน"><i class="fi fi-rr-bell"></i><span class="badge-dot"></span></button>
+          <div class="topbar-user">
+            <div class="topbar-user-avatar" id="topbar-user-avatar">A</div>
+            <div class="topbar-user-info">
+              <div class="topbar-user-name" id="topbar-user-name">ผู้ดูแลระบบ</div>
+              <div class="topbar-user-role" id="topbar-user-role">Admin</div>
+            </div>
+          </div>
+          <button class="btn btn-icon" id="logout-btn" aria-label="ออกจากระบบ"><i class="fi fi-rr-sign-out-alt"></i></button>
+        </div>
+      </header>
+
+      <main class="app-content">
+        <div class="page-header">
+          <div>
+            <div class="page-header-title">จัดการสิทธิ์ (RBAC)</div>
+            <div class="page-header-subtitle">
+              สิทธิ์แต่ละ role ถูกบังคับจริงที่ระดับฐานข้อมูล (Row Level Security) หน้านี้เป็นตารางอ้างอิงแบบดูอย่างเดียว
+            </div>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th class="col-narrow">Role</th>
+                  <th>สิทธิ์การใช้งาน</th>
+                </tr>
+              </thead>
+              <tbody id="roles-matrix-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script type="module">
+    import '../../js/auth/logout.js';
+    import '../../js/shared/layout.js';
+    import '../../js/admin/roles.js';
+  </script>
+</body>
+</html>

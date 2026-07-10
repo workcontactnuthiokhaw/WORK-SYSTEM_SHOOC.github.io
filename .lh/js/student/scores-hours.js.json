@@ -1,0 +1,18 @@
+{
+    "sourceFile": "js/student/scores-hours.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1783635925291,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1783635925291,
+            "name": "Commit-0",
+            "content": "/**\r\n * scores-hours.js — คะแนน/ชั่วโมงสะสม /pages/student/scores-hours.html\r\n * สรุปรวมจากทุกกิจกรรมที่ completed + ตารางรายละเอียดต่อกิจกรรม\r\n *\r\n * Element IDs ที่คาดหวัง:\r\n *   #summary-total-hours, #summary-total-score, #summary-total-activities\r\n *   #data-table-body, #empty-state, #loading-state\r\n */\r\n\r\nimport { requireAuth } from '../auth/auth-guard.js';\r\nimport supabaseClient from '../config/supabase-client.js';\r\nimport Popup from '../shared/popup.js';\r\n\r\nlet currentProfile = null;\r\n\r\nconst loadingState = document.getElementById('loading-state');\r\nconst tableBody = document.getElementById('data-table-body');\r\nconst emptyState = document.getElementById('empty-state');\r\n\r\nasync function init() {\r\n  currentProfile = await requireAuth(['student']);\r\n  if (!currentProfile) return;\r\n  await loadScoresHours();\r\n}\r\n\r\nasync function loadScoresHours() {\r\n  loadingState?.classList.remove('is-hidden');\r\n\r\n  const { data, error } = await supabaseClient\r\n    .from('attendance')\r\n    .select('*,activities(name,start_datetime,activity_types(name))', {\r\n      filters: [\r\n        ['student_id', 'eq', currentProfile.id],\r\n        ['status', 'eq', 'completed'],\r\n      ],\r\n      order: 'updated_at.desc',\r\n    });\r\n\r\n  loadingState?.classList.add('is-hidden');\r\n\r\n  if (error) {\r\n    Popup.error('โหลดข้อมูลไม่สำเร็จ', 'ไม่สามารถดึงข้อมูลคะแนน/ชั่วโมงสะสมได้');\r\n    return;\r\n  }\r\n\r\n  const rows = data || [];\r\n  renderSummary(rows);\r\n  renderTable(rows);\r\n}\r\n\r\nfunction renderSummary(rows) {\r\n  const totalHours = rows.reduce((sum, r) => sum + (Number(r.hours_earned) || 0), 0);\r\n  const totalScore = rows.reduce((sum, r) => sum + (Number(r.score) || 0), 0);\r\n\r\n  setText('summary-total-hours', totalHours.toLocaleString('th-TH'));\r\n  setText('summary-total-score', totalScore.toLocaleString('th-TH'));\r\n  setText('summary-total-activities', rows.length.toLocaleString('th-TH'));\r\n}\r\n\r\nfunction setText(id, value) {\r\n  const el = document.getElementById(id);\r\n  if (el) el.textContent = value;\r\n}\r\n\r\nfunction renderTable(rows) {\r\n  if (!tableBody) return;\r\n  tableBody.innerHTML = '';\r\n\r\n  if (rows.length === 0) {\r\n    emptyState?.classList.remove('is-hidden');\r\n    return;\r\n  }\r\n  emptyState?.classList.add('is-hidden');\r\n\r\n  rows.forEach((r) => {\r\n    const tr = document.createElement('tr');\r\n    tr.innerHTML = `\r\n      <td>${escapeHtml(r.activities?.name || '-')}</td>\r\n      <td class=\"cell-muted\">${escapeHtml(r.activities?.activity_types?.name || '-')}</td>\r\n      <td class=\"cell-muted\">${r.activities ? new Date(r.activities.start_datetime).toLocaleDateString('th-TH', { dateStyle: 'medium' }) : '-'}</td>\r\n      <td>${r.score ?? 0}</td>\r\n      <td>${r.hours_earned ?? 0}</td>\r\n    `;\r\n    tableBody.appendChild(tr);\r\n  });\r\n}\r\n\r\nfunction escapeHtml(str) {\r\n  const div = document.createElement('div');\r\n  div.textContent = str ?? '';\r\n  return div.innerHTML;\r\n}\r\n\r\ninit();"
+        }
+    ]
+}
