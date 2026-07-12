@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 3,
+            "activePatchIndex": 4,
             "patches": [
                 {
                     "date": 1783681018348,
@@ -20,6 +20,10 @@
                 {
                     "date": 1783852103608,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,8 +24,11 @@\n   <link rel=\"stylesheet\" href=\"/css/components/loading.css\" />\r\n   <link rel=\"stylesheet\" href=\"/css/components/empty-state.css\" />\r\n   <link rel=\"stylesheet\" href=\"/css/components/popup.css\" />\r\n   <link rel=\"stylesheet\" href=\"/css/pages/teacher.css\" />\r\n+\r\n+  <!-- Library สำหรับ generate ใบประกาศนียบัตร PDF (ใช้โดย js/shared/certificate-generator.js) -->\r\n+  <script src=\"https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js\"></script>\r\n </head>\r\n <body>\r\n \r\n   <div class=\"app-shell\" id=\"app-shell\">\r\n@@ -132,5 +135,5 @@\n     import '../../js/shared/layout.js';\r\n     import '../../js/teacher/attendance.js';\r\n   </script>\r\n </body>\r\n-</html>\r\n+</html>\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1783873459199,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,21 +11,21 @@\n   <link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap\" />\r\n \r\n   <link rel=\"stylesheet\" href=\"https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css\" />\r\n \r\n-  <link rel=\"stylesheet\" href=\"/css/base/reset.css\" />\r\n-  <link rel=\"stylesheet\" href=\"/css/base/variables.css\" />\r\n-  <link rel=\"stylesheet\" href=\"/css/base/typography.css\" />\r\n-  <link rel=\"stylesheet\" href=\"/css/layout/sidebar.css\" />\r\n-  <link rel=\"stylesheet\" href=\"/css/layout/topbar.css\" />\r\n-  <link rel=\"stylesheet\" href=\"/css/layout/dashboard-layout.css\" />\r\n-  <link rel=\"stylesheet\" href=\"/css/components/buttons.css\" />\r\n-  <link rel=\"stylesheet\" href=\"/css/components/table.css\" />\r\n-  <link rel=\"stylesheet\" href=\"/css/components/badge.css\" />\r\n-  <link rel=\"stylesheet\" href=\"/css/components/loading.css\" />\r\n-  <link rel=\"stylesheet\" href=\"/css/components/empty-state.css\" />\r\n-  <link rel=\"stylesheet\" href=\"/css/components/popup.css\" />\r\n-  <link rel=\"stylesheet\" href=\"/css/pages/teacher.css\" />\r\n+  <link rel=\"stylesheet\" href=\"../../css/base/reset.css\" />\r\n+  <link rel=\"stylesheet\" href=\"../../css/base/variables.css\" />\r\n+  <link rel=\"stylesheet\" href=\"../../css/base/typography.css\" />\r\n+  <link rel=\"stylesheet\" href=\"../../css/layout/sidebar.css\" />\r\n+  <link rel=\"stylesheet\" href=\"../../css/layout/topbar.css\" />\r\n+  <link rel=\"stylesheet\" href=\"../../css/layout/dashboard-layout.css\" />\r\n+  <link rel=\"stylesheet\" href=\"../../css/components/buttons.css\" />\r\n+  <link rel=\"stylesheet\" href=\"../../css/components/table.css\" />\r\n+  <link rel=\"stylesheet\" href=\"../../css/components/badge.css\" />\r\n+  <link rel=\"stylesheet\" href=\"../../css/components/loading.css\" />\r\n+  <link rel=\"stylesheet\" href=\"../../css/components/empty-state.css\" />\r\n+  <link rel=\"stylesheet\" href=\"../../css/components/popup.css\" />\r\n+  <link rel=\"stylesheet\" href=\"../../css/pages/teacher.css\" />\r\n \r\n   <!-- Library สำหรับ generate ใบประกาศนียบัตร PDF (ใช้โดย js/shared/certificate-generator.js) -->\r\n   <script src=\"https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js\"></script>\r\n </head>\r\n"
                 }
             ],
             "date": 1783681018348,

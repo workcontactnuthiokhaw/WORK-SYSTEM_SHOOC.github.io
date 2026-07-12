@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 6,
+            "activePatchIndex": 7,
             "patches": [
                 {
                     "date": 1783681038197,
@@ -32,6 +32,10 @@
                 {
                     "date": 1783782029744,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -44,9 +44,9 @@\n         <a href=\"../admin/roles.html\" class=\"sidebar-link admin-only\"><i class=\"fi fi-rr-shield-check\"></i><span>จัดการสิทธิ์</span></a>\r\n         <a href=\"../admin/activity-types.html\" class=\"sidebar-link admin-only\"><i class=\"fi fi-rr-tags\"></i><span>ประเภทกิจกรรม</span></a>\r\n         <a href=\"../admin/academic-years.html\" class=\"sidebar-link admin-only\"><i class=\"fi fi-rr-calendar-lines\"></i><span>ปีการศึกษา</span></a>\r\n         <a href=\"../admin/departments.html\" class=\"sidebar-link admin-only\"><i class=\"fi fi-rr-building\"></i><span>ภาควิชา/แผนก</span></a>\r\n-        <a href=\"../admin/classes.html\" class=\"sidebar-link admin-only\"><i class=\"fi fi-rr-chalkboard\"></i><span>ห้องเรียน</span></a>\r\n+        <a href=\"../admin/classes.html\" class=\"sidebar-link admin-only\"><i class=\"fi fi-rr-chalkboard-user\"></i><span>ห้องเรียน</span></a>\r\n         <a href=\"../admin/system-logs.html\" class=\"sidebar-link admin-only\"><i class=\"fi fi-rr-time-past\"></i><span>System Logs</span></a>\r\n \r\n         <div class=\"sidebar-section-label teacher-only\">ครู</div>\r\n         <a href=\"./activities.html\" class=\"sidebar-link teacher-only is-active\"><i class=\"fi fi-rr-calendar-star\"></i><span>กิจกรรมทั้งหมด</span></a>\r\n"
+                },
+                {
+                    "date": 1783873481728,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,17 +11,17 @@\n   <link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap\" />\r\n \r\n   <link rel=\"stylesheet\" href=\"https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css\" />\r\n \r\n-  <link rel=\"stylesheet\" href=\"/css/base/reset.css\" />\r\n-  <link rel=\"stylesheet\" href=\"/css/base/variables.css\" />\r\n-  <link rel=\"stylesheet\" href=\"/css/base/typography.css\" />\r\n-  <link rel=\"stylesheet\" href=\"/css/layout/sidebar.css\" />\r\n-  <link rel=\"stylesheet\" href=\"/css/layout/topbar.css\" />\r\n-  <link rel=\"stylesheet\" href=\"/css/layout/dashboard-layout.css\" />\r\n-  <link rel=\"stylesheet\" href=\"/css/components/buttons.css\" />\r\n-  <link rel=\"stylesheet\" href=\"/css/components/popup.css\" />\r\n-  <link rel=\"stylesheet\" href=\"/css/pages/teacher.css\" />\r\n+  <link rel=\"stylesheet\" href=\"../../css/base/reset.css\" />\r\n+  <link rel=\"stylesheet\" href=\"../../css/base/variables.css\" />\r\n+  <link rel=\"stylesheet\" href=\"../../css/base/typography.css\" />\r\n+  <link rel=\"stylesheet\" href=\"../../css/layout/sidebar.css\" />\r\n+  <link rel=\"stylesheet\" href=\"../../css/layout/topbar.css\" />\r\n+  <link rel=\"stylesheet\" href=\"../../css/layout/dashboard-layout.css\" />\r\n+  <link rel=\"stylesheet\" href=\"../../css/components/buttons.css\" />\r\n+  <link rel=\"stylesheet\" href=\"../../css/components/popup.css\" />\r\n+  <link rel=\"stylesheet\" href=\"../../css/pages/teacher.css\" />\r\n \r\n   <!-- Library สร้าง QR Code (ใช้โดย js/teacher/qr-generate.js) -->\r\n   <script src=\"https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js\"></script>\r\n </head>\r\n"
                 }
             ],
             "date": 1783681038197,
