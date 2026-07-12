@@ -30,8 +30,7 @@ const loadingState = document.getElementById('loading-state');
 async function init() {
   currentProfile = await requireAuth(['admin', 'teacher']);
   if (!currentProfile) return;
-  await loadOwnedActivityIds();
-  await loadFilterOptions();
+  await Promise.all([loadOwnedActivityIds(), loadFilterOptions()]);
   await loadActivities();
 }
 

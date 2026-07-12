@@ -3,11 +3,15 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 1,
             "patches": [
                 {
                     "date": 1783578947367,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1783681093046,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -67,5 +67,23 @@\n     animation-iteration-count: 1 !important;\r\n     transition-duration: 0.01ms !important;\r\n     scroll-behavior: auto !important;\r\n   }\r\n-}\n\\ No newline at end of file\n+}\r\n+\r\n+/* ---------- Utility ---------- */\r\n+.is-hidden { display: none !important; }\r\n+\r\n+.checkbox-field-label {\r\n+  display: flex;\r\n+  align-items: center;\r\n+  gap: 8px;\r\n+  font-weight: 400;\r\n+  cursor: pointer;\r\n+}\r\n+\r\n+.checkbox-field-label input[type=\"checkbox\"] {\r\n+  width: auto;\r\n+}\r\n+\r\n+.mt-2 { margin-top: var(--space-2); }\r\n+.mb-4 { margin-bottom: var(--space-4); }\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1783578947367,

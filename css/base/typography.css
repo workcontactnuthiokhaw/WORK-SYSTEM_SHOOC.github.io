@@ -1,9 +1,12 @@
 /* ============================================================
    typography.css — สโตร์ตัวอักษร Kanit เพียงแบบเดียว
    ใช้ font-weight ต่างกันเพื่อสร้างลำดับชั้น (hierarchy)
-   ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+   หมายเหตุ: ฟอนต์ Kanit ถูกโหลดผ่าน <link rel="stylesheet"> ใน <head>
+   ของทุกหน้า HTML โดยตรงแล้ว (ไม่ใช้ @import ในไฟล์นี้อีกต่อไป เพราะ
+   @import บังคับให้เบราว์เซอร์โหลดไฟล์นี้ก่อนถึงจะรู้ว่าต้องไปโหลดฟอนต์
+   จากไหนต่อ ทำให้ช้ากว่าประกาศ <link> ตรงๆ ซึ่งโหลดพร้อมกับไฟล์อื่นได้เลย)
+   ============================================================ */
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
@@ -32,6 +35,8 @@ body, p, span, div {
 .text-tiny  { font-size: var(--fs-tiny); }
 
 .text-primary { color: var(--color-primary); }
+.text-right { text-align: right; }
+.text-center { text-align: center; }
 
 .font-light  { font-weight: 300; }
 .font-medium { font-weight: 500; }

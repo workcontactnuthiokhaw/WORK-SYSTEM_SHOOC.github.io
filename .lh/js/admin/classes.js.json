@@ -3,11 +3,15 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 1,
             "patches": [
                 {
                     "date": 1783579627267,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1783764367728,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,10 +34,9 @@\n \r\n async function init() {\r\n   const profile = await requireAuth(['admin']);\r\n   if (!profile) return;\r\n-  await loadLookups();\r\n-  await loadClasses();\r\n+  await Promise.all([loadLookups(), loadClasses()]);\r\n }\r\n \r\n async function loadLookups() {\r\n   const [deptRes, yearRes] = await Promise.all([\r\n@@ -202,5 +201,5 @@\n searchInput?.addEventListener('input', applyFilters);\r\n filterDepartment?.addEventListener('change', applyFilters);\r\n filterAcademicYear?.addEventListener('change', applyFilters);\r\n \r\n-init();\n\\ No newline at end of file\n+init();\r\n"
                 }
             ],
             "date": 1783579627267,

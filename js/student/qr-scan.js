@@ -140,14 +140,20 @@ async function handleScanResult(activityId) {
 }
 
 async function tryGenerateCertificate(activity) {
-  // รอสักครู่ให้ trigger ฝั่ง DB สร้างแถว certificates เสร็จก่อน แล้วค่อยไปอ่าน certificate_no มา generate PDF
-  await new Promise((resolve) => setTimeout(resolve, 1200));
+  // รอ + เช็คซ้ำหลายรอบ ให้ trigger ฝั่ง DB สร้างแถว certificates เสร็จก่อน
+  let certRows = null;
+  for (let attempt = 0; attempt < 5; attempt++) {
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    const { data } = await supabaseClient
+      .from('certificates')
+      .select('*', { filters: [['student_id', 'eq', currentProfile.id], ['activity_id', 'eq', activity.id]] });
+    if (data && data.length > 0) {
+      certRows = data;
+      break;
+    }
+  }
 
-  const { data: certRows } = await supabaseClient
-    .from('certificates')
-    .select('*', { filters: [['student_id', 'eq', currentProfile.id], ['activity_id', 'eq', activity.id]] });
-
-  if (!certRows || certRows.length === 0) return; // trigger อาจยังไม่ทำงานเสร็จ ให้ไปโหลดใหม่ทีหลังในหน้า certificates.html
+  if (!certRows || certRows.length === 0) return; // ให้ไปโหลดใหม่ทีหลังในหน้า certificates.html ได้อยู่แล้ว
 
   const { data: profileRows } = await supabaseClient
     .from('profiles')

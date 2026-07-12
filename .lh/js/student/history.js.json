@@ -3,11 +3,15 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 1,
             "patches": [
                 {
                     "date": 1783635904092,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1783764348727,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -23,10 +23,9 @@\n \r\n async function init() {\r\n   currentProfile = await requireAuth(['student']);\r\n   if (!currentProfile) return;\r\n-  await loadFilterOptions();\r\n-  await loadHistory();\r\n+  await Promise.all([loadFilterOptions(), loadHistory()]);\r\n }\r\n \r\n async function loadFilterOptions() {\r\n   const { data } = await supabaseClient.from('academic_years').select('id,year_name', { order: 'start_date.desc' });\r\n@@ -105,5 +104,5 @@\n \r\n yearSelect?.addEventListener('change', () => renderTable(allHistory));\r\n searchInput?.addEventListener('input', () => renderTable(allHistory));\r\n \r\n-init();\n\\ No newline at end of file\n+init();\r\n"
                 }
             ],
             "date": 1783635904092,

@@ -198,13 +198,19 @@ resetBtn?.addEventListener('click', resetForm);
  */
 async function createAuthUserViaEdgeFunction(email, password) {
   try {
+    const session = supabaseClient.auth.getSession();
     const res = await fetch(`${supabaseClient.url}/functions/v1/admin-create-user`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${session?.access_token || ''}`,
+      },
       body: JSON.stringify({ email, password }),
     });
-    if (!res.ok) throw new Error('Edge Function ยังไม่ได้ตั้งค่า หรือสร้างผู้ใช้ไม่สำเร็จ');
-    const data = await res.json();
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      return { id: null, error: data?.error || 'สร้างผู้ใช้ไม่สำเร็จ' };
+    }
     return { id: data.id, error: null };
   } catch (err) {
     return { id: null, error: 'ยังไม่ได้ตั้งค่าระบบสร้างผู้ใช้ใหม่อัตโนมัติ (Edge Function) กรุณาสร้างบัญชีผ่าน Supabase Dashboard -> Authentication -> Users ก่อน แล้วค่อยกลับมากรอกข้อมูลเพิ่มเติมที่นี่โดยใช้ UID ที่ได้' };

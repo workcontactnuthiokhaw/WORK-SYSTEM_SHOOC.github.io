@@ -57,6 +57,7 @@
 .btn-sm { padding: 6px 14px; font-size: var(--fs-small); }
 .btn-lg { padding: 13px 28px; font-size: var(--fs-h3); }
 .btn-block { width: 100%; }
+.btn-flex-1 { flex: 1; }
 
 /* ---------- Icon-only ---------- */
 .btn-icon {

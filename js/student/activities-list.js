@@ -10,7 +10,7 @@
 import { requireAuth } from '../auth/auth-guard.js';
 import supabaseClient from '../config/supabase-client.js';
 import Popup from '../shared/popup.js';
-import { getActivityCapacityInfo, isAlreadyRegistered, renderSeatsBar } from '../shared/registration-limit.js';
+import { renderSeatsBar } from '../shared/registration-limit.js';
 
 let currentProfile = null;
 let allActivities = [];
@@ -29,8 +29,7 @@ const REGISTERABLE_STATUSES = ['published', 'registration_open'];
 async function init() {
   currentProfile = await requireAuth(['student']);
   if (!currentProfile) return;
-  await loadFilterOptions();
-  await loadActivities();
+  await Promise.all([loadFilterOptions(), loadActivities()]);
 }
 
 async function loadFilterOptions() {
@@ -95,9 +94,27 @@ async function renderGrid(activities) {
   }
   emptyState?.classList.add('is-hidden');
 
-  for (const activity of filtered) {
-    const capacityInfo = await getActivityCapacityInfo(activity.id, activity.max_participants);
-    const regInfo = await isAlreadyRegistered(currentProfile.id, activity.id);
+  // ดึงข้อมูลการลงทะเบียนของ "ทุกกิจกรรมที่เห็นอยู่" มาครั้งเดียว (1 query)
+  // แทนการยิง query ทีละกิจกรรมในลูป (เดิมช้ามากถ้ามีหลายกิจกรรม เพราะยิงทีละคิว)
+  const activityIds = filtered.map((a) => a.id);
+  const { data: allRegs } = activityIds.length
+    ? await supabaseClient.from('registrations').select('activity_id,student_id,status', {
+        filters: [['activity_id', 'in', `(${activityIds.join(',')})`]],
+      })
+    : { data: [] };
+
+  filtered.forEach((activity) => {
+    const activityRegs = (allRegs || []).filter((r) => r.activity_id === activity.id);
+
+    const registeredCount = activityRegs.filter((r) =>
+      ['registered', 'approved', 'pending_approval'].includes(r.status)
+    ).length;
+    const maxParticipants = activity.max_participants;
+    const isFull = maxParticipants != null && registeredCount >= maxParticipants;
+    const capacityInfo = { registeredCount, maxParticipants, isFull };
+
+    const myReg = activityRegs.find((r) => r.student_id === currentProfile.id);
+    const regInfo = myReg ? { registered: true, status: myReg.status } : { registered: false, status: null };
 
     const card = document.createElement('div');
     card.className = 'student-activity-card';
@@ -117,7 +134,7 @@ async function renderGrid(activities) {
       </div>
     `;
     grid.appendChild(card);
-  }
+  });
 
   attachRegisterHandlers();
 }

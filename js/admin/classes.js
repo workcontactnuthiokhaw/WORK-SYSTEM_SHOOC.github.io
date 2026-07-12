@@ -35,8 +35,7 @@ const loadingState = document.getElementById('loading-state');
 async function init() {
   const profile = await requireAuth(['admin']);
   if (!profile) return;
-  await loadLookups();
-  await loadClasses();
+  await Promise.all([loadLookups(), loadClasses()]);
 }
 
 async function loadLookups() {

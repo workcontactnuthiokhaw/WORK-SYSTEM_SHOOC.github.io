@@ -3,6 +3,13 @@
    (activities, activity-form, activity-detail, attendance, qr-generate, teachers-manage)
    ============================================================ */
 
+/* ---------- Activity grid container (ใช้กับ #activity-grid) ---------- */
+.activity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-4);
+}
+
 /* ---------- Activity card (มุมมองการ์ดในหน้ารายการกิจกรรม) ---------- */
 .activity-card {
   background: var(--color-bg);

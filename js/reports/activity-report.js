@@ -81,13 +81,24 @@ async function loadReport() {
   }
 
   // ดึงจำนวนลงทะเบียน/เข้าร่วมจริงของแต่ละกิจกรรม
+  // ยิง 2 query พร้อมกัน (Promise.all) แทนการรอทีละอัน + filter เฉพาะกิจกรรมที่เกี่ยวข้อง
+  // แทนที่จะดึงทั้งตาราง (เดิมดึงทั้ง registrations/attendance ทั้งตารางแม้ activity ที่กรองไว้จะมีไม่กี่ตัว)
   const activityIds = (activities || []).map((a) => a.id);
-  const { data: registrations } = activityIds.length
-    ? await supabaseClient.from('registrations').select('activity_id,status')
-    : { data: [] };
-  const { data: attendance } = activityIds.length
-    ? await supabaseClient.from('attendance').select('activity_id,status')
-    : { data: [] };
+  const idFilter = activityIds.length ? `(${activityIds.join(',')})` : null;
+
+  const [regResult, attResult] = idFilter
+    ? await Promise.all([
+        supabaseClient.from('registrations').select('activity_id,status', {
+          filters: [['activity_id', 'in', idFilter]],
+        }),
+        supabaseClient.from('attendance').select('activity_id,status', {
+          filters: [['activity_id', 'in', idFilter]],
+        }),
+      ])
+    : [{ data: [] }, { data: [] }];
+
+  const registrations = regResult.data;
+  const attendance = attResult.data;
 
   loadingState?.classList.add('is-hidden');
 

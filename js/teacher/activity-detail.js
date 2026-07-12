@@ -42,8 +42,7 @@ async function init() {
   }
 
   wireActionButtons();
-  await loadActivityInfo();
-  await loadRegistrations();
+  await Promise.all([loadActivityInfo(), loadRegistrations()]);
 }
 
 function wireActionButtons() {

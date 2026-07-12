@@ -3,11 +3,15 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 1,
             "patches": [
                 {
                     "date": 1783599516694,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1783764404083,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -80,16 +80,27 @@\n     return;\r\n   }\r\n \r\n   // ดึงจำนวนลงทะเบียน/เข้าร่วมจริงของแต่ละกิจกรรม\r\n+  // ยิง 2 query พร้อมกัน (Promise.all) แทนการรอทีละอัน + filter เฉพาะกิจกรรมที่เกี่ยวข้อง\r\n+  // แทนที่จะดึงทั้งตาราง (เดิมดึงทั้ง registrations/attendance ทั้งตารางแม้ activity ที่กรองไว้จะมีไม่กี่ตัว)\r\n   const activityIds = (activities || []).map((a) => a.id);\r\n-  const { data: registrations } = activityIds.length\r\n-    ? await supabaseClient.from('registrations').select('activity_id,status')\r\n-    : { data: [] };\r\n-  const { data: attendance } = activityIds.length\r\n-    ? await supabaseClient.from('attendance').select('activity_id,status')\r\n-    : { data: [] };\r\n+  const idFilter = activityIds.length ? `(${activityIds.join(',')})` : null;\r\n \r\n+  const [regResult, attResult] = idFilter\r\n+    ? await Promise.all([\r\n+        supabaseClient.from('registrations').select('activity_id,status', {\r\n+          filters: [['activity_id', 'in', idFilter]],\r\n+        }),\r\n+        supabaseClient.from('attendance').select('activity_id,status', {\r\n+          filters: [['activity_id', 'in', idFilter]],\r\n+        }),\r\n+      ])\r\n+    : [{ data: [] }, { data: [] }];\r\n+\r\n+  const registrations = regResult.data;\r\n+  const attendance = attResult.data;\r\n+\r\n   loadingState?.classList.add('is-hidden');\r\n \r\n   currentRows = (activities || []).map((a) => {\r\n     const registeredCount = (registrations || []).filter(\r\n@@ -171,5 +182,5 @@\n   const { columns, rows } = toExportRows();\r\n   exportToCsv(columns, rows, `activity-report-${Date.now()}.csv`);\r\n });\r\n \r\n-init();\n\\ No newline at end of file\n+init();\r\n"
                 }
             ],
             "date": 1783599516694,

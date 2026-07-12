@@ -22,6 +22,17 @@
 .role-tag.role-teacher { background: var(--color-status-completed-bg); color: var(--color-status-completed); border-color: transparent; }
 .role-tag.role-student { background: var(--color-status-active-bg); color: var(--color-status-active); border-color: transparent; }
 
+/* ---------- Roles reference matrix ---------- */
+.role-permission-list {
+  padding-left: var(--space-4);
+  list-style: disc;
+}
+.role-permission-list li {
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+  margin-bottom: 4px;
+}
+
 /* ---------- Master data CRUD card (ประเภทกิจกรรม/ปีการศึกษา/ภาควิชา/ห้องเรียน) ---------- */
 .master-data-grid {
   display: grid;
@@ -85,6 +96,11 @@
 }
 
 .form-actions .btn { flex: 1; }
+
+.master-data-form-card.form-card-standalone {
+  max-width: 760px;
+  position: static;
+}
 
 /* ---------- Active academic year highlight ---------- */
 .academic-year-row.is-active td:first-child {

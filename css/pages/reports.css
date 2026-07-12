@@ -115,10 +115,10 @@
   background: var(--color-bg);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  padding: var(--space-4);
+  padding: var(--space-5);
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-3);
+  gap: var(--space-4);
   align-items: flex-end;
   margin-bottom: var(--space-5);
 }
@@ -126,8 +126,8 @@
 .report-filter-field {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  min-width: 160px;
+  gap: var(--space-2);
+  min-width: 180px;
 }
 
 .report-filter-field-grow {
@@ -138,15 +138,79 @@
 .report-filter-field label {
   font-size: var(--fs-tiny);
   color: var(--color-text-muted);
-  font-weight: 500;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
-.report-filter-field select,
-.report-filter-field input {
+.report-filter-field > select,
+.report-filter-field > input {
+  height: 44px;
+  width: 100%;
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: 9px 12px;
+  border-radius: var(--radius-full);
+  padding: 0 14px;
   font-size: var(--fs-small);
+  font-family: var(--font-family);
+  color: var(--color-text);
+  background: var(--color-bg);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+/* ---------- ช่องค้นหา (.table-search) ที่อยู่ใน filter bar ----------
+   .table-search ครอบ input อีกชั้น (มี icon แว่นขยายอยู่ข้างใน) ทำให้
+   selector "> input" ด้านบนไม่โดน (เพราะ input ไม่ใช่ direct child ของ
+   .report-filter-field) เลยต้องกำหนด height ให้ .table-search โดยตรง
+   และบังคับ input ข้างในให้สูงเต็มกล่องแม่ ---------- */
+.report-filter-field .table-search {
+  height: 44px;
+  box-sizing: border-box;
+  /* สำคัญ: .table-search มี "flex: 1" จาก table.css (ออกแบบมาสำหรับตอนอยู่ใน
+     .table-toolbar ที่เป็น flex-direction: row) แต่ .report-filter-field เป็น
+     flex-direction: column ทำให้แกนหลัก (main axis) เปลี่ยนเป็นแนวตั้ง
+     flex-basis: 0% จาก "flex: 1" เดิมเลยไปคุมความสูงแทน ทำให้ height: 44px
+     ด้านบนไม่มีผล ต้อง override ด้วย flex: 0 0 auto เพื่อให้ height กลับมาใช้ได้ */
+  flex: 0 0 auto;
+}
+
+.report-filter-field .table-search input {
+  height: 100%;
+}
+
+.report-filter-field > select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 36px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%236B7280' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  cursor: pointer;
+}
+
+.report-filter-field > select:hover,
+.report-filter-field > input:hover {
+  border-color: var(--color-border-strong);
+}
+
+.report-filter-field > select:focus,
+.report-filter-field > input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-soft);
+}
+
+.report-filter-field > input::placeholder {
+  color: var(--color-text-faint);
+}
+
+.report-filter-bar > .btn {
+  height: 44px;
+}
+
+@media (max-width: 768px) {
+  .report-filter-bar { flex-direction: column; align-items: stretch; }
+  .report-filter-field { min-width: 0; }
+  .report-filter-bar > .btn { width: 100%; }
 }
 
 /* ---------- Chart card grid เฉพาะหน้า dashboard-report ---------- */
@@ -197,7 +261,7 @@
 .recent-activity-icon {
   width: 40px;
   height: 40px;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-full);
   background: var(--color-primary-light);
   color: var(--color-primary);
   display: flex;

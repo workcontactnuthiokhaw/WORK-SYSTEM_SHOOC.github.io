@@ -24,8 +24,7 @@ const loadingState = document.getElementById('loading-state');
 async function init() {
   currentProfile = await requireAuth(['student']);
   if (!currentProfile) return;
-  await loadFilterOptions();
-  await loadHistory();
+  await Promise.all([loadFilterOptions(), loadHistory()]);
 }
 
 async function loadFilterOptions() {

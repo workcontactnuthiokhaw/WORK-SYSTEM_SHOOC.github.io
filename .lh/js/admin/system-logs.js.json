@@ -3,11 +3,15 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 1,
             "patches": [
                 {
                     "date": 1783579640326,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1783764376495,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,10 +36,9 @@\n \r\n async function init() {\r\n   const profile = await requireAuth(['admin']);\r\n   if (!profile) return;\r\n-  await loadUsersForFilter();\r\n-  await loadLogs();\r\n+  await Promise.all([loadUsersForFilter(), loadLogs()]);\r\n }\r\n \r\n async function loadUsersForFilter() {\r\n   const { data } = await supabaseClient.from('profiles').select('id,full_name', { order: 'full_name.asc' });\r\n@@ -140,5 +139,5 @@\n });\r\n \r\n applyBtn?.addEventListener('click', loadLogs);\r\n \r\n-init();\n\\ No newline at end of file\n+init();\r\n"
                 }
             ],
             "date": 1783579640326,

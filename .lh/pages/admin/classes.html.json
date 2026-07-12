@@ -3,11 +3,19 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 2,
             "patches": [
                 {
                     "date": 1783636658908,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1783764554470,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,8 +4,13 @@\n   <meta charset=\"UTF-8\" />\r\n   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\r\n   <title>จัดการห้องเรียน | Rmutr School - SAMS</title>\r\n \r\n+    <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\" />\r\n+  <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin />\r\n+  <link rel=\"preconnect\" href=\"https://cdn-uicons.flaticon.com\" />\r\n+  <link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap\" />\r\n+\r\n   <link rel=\"stylesheet\" href=\"https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css\" />\r\n \r\n   <link rel=\"stylesheet\" href=\"/css/base/reset.css\" />\r\n   <link rel=\"stylesheet\" href=\"/css/base/variables.css\" />\r\n@@ -153,5 +158,5 @@\n     import '../../js/shared/layout.js';\r\n     import '../../js/admin/classes.js';\r\n   </script>\r\n </body>\r\n-</html>\n\\ No newline at end of file\n+</html>\r\n"
+                },
+                {
+                    "date": 1783781978819,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -46,9 +46,9 @@\n         <a href=\"./roles.html\" class=\"sidebar-link\"><i class=\"fi fi-rr-shield-check\"></i><span>จัดการสิทธิ์</span></a>\r\n         <a href=\"./activity-types.html\" class=\"sidebar-link\"><i class=\"fi fi-rr-tags\"></i><span>ประเภทกิจกรรม</span></a>\r\n         <a href=\"./academic-years.html\" class=\"sidebar-link\"><i class=\"fi fi-rr-calendar-lines\"></i><span>ปีการศึกษา</span></a>\r\n         <a href=\"./departments.html\" class=\"sidebar-link\"><i class=\"fi fi-rr-building\"></i><span>ภาควิชา/แผนก</span></a>\r\n-        <a href=\"./classes.html\" class=\"sidebar-link is-active\"><i class=\"fi fi-rr-chalkboard\"></i><span>ห้องเรียน</span></a>\r\n+        <a href=\"./classes.html\" class=\"sidebar-link is-active\"><i class=\"fi fi-rr-chalkboard-user\"></i><span>ห้องเรียน</span></a>\r\n         <a href=\"./system-logs.html\" class=\"sidebar-link\"><i class=\"fi fi-rr-time-past\"></i><span>System Logs</span></a>\r\n \r\n         <div class=\"sidebar-section-label\">รายงาน</div>\r\n         <a href=\"../reports/dashboard-report.html\" class=\"sidebar-link\"><i class=\"fi fi-rr-dashboard\"></i><span>Dashboard</span></a>\r\n@@ -142,9 +142,9 @@\n             <div id=\"loading-state\" class=\"is-hidden loading-inline\">\r\n               <div class=\"spinner\"></div>\r\n             </div>\r\n             <div id=\"empty-state\" class=\"empty-state is-hidden\">\r\n-              <div class=\"empty-state-icon\"><i class=\"fi fi-rr-chalkboard\"></i></div>\r\n+              <div class=\"empty-state-icon\"><i class=\"fi fi-rr-chalkboard-user\"></i></div>\r\n               <div class=\"empty-state-title\">ยังไม่มีห้องเรียน</div>\r\n               <div class=\"empty-state-message\">เริ่มเพิ่มห้องเรียนแรกของคุณจากฟอร์มด้านซ้าย</div>\r\n             </div>\r\n           </div>\r\n"
                 }
             ],
             "date": 1783636658908,

@@ -3,11 +3,15 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 1,
             "patches": [
                 {
                     "date": 1783579316314,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1783681072597,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,8 +2,15 @@\n    teacher.css — สไตล์เฉพาะหน้า Teacher\r\n    (activities, activity-form, activity-detail, attendance, qr-generate, teachers-manage)\r\n    ============================================================ */\r\n \r\n+/* ---------- Activity grid container (ใช้กับ #activity-grid) ---------- */\r\n+.activity-grid {\r\n+  display: grid;\r\n+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));\r\n+  gap: var(--space-4);\r\n+}\r\n+\r\n /* ---------- Activity card (มุมมองการ์ดในหน้ารายการกิจกรรม) ---------- */\r\n .activity-card {\r\n   background: var(--color-bg);\r\n   border: 1px solid var(--color-border);\r\n"
                 }
             ],
             "date": 1783579316314,

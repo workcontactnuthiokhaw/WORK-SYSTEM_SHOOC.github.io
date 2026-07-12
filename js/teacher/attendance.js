@@ -12,8 +12,10 @@ import { requireAuth } from '../auth/auth-guard.js';
 import supabaseClient from '../config/supabase-client.js';
 import Popup from '../shared/popup.js';
 import { renderStatusBadge, ATTENDANCE_STATUS_LABELS } from '../shared/status-badge.js';
+import { generateAndUploadCertificate } from '../shared/certificate-generator.js';
 
 let activityId = null;
+let activityName = '';
 let currentProfile = null;
 let rows = [];
 
@@ -41,21 +43,28 @@ async function init() {
 
 async function loadActivityInfo() {
   const { data } = await supabaseClient.from('activities').select('name', { filters: [['id', 'eq', activityId]] });
-  if (titleEl && data && data.length > 0) titleEl.textContent = `เช็กชื่อ/ให้คะแนน: ${data[0].name}`;
+  if (data && data.length > 0) {
+    activityName = data[0].name;
+    if (titleEl) titleEl.textContent = `เช็กชื่อ/ให้คะแนน: ${activityName}`;
+  }
 }
 
 async function loadParticipants() {
   loadingState?.classList.remove('is-hidden');
 
-  const { data: registrations, error: regError } = await supabaseClient
-    .from('registrations')
-    .select('student_id,status,students(student_code,classes(class_name),profiles(full_name))', {
-      filters: [['activity_id', 'eq', activityId], ['status', 'in', '(registered,approved)']],
-    });
+  const [regResult, attResult] = await Promise.all([
+    supabaseClient
+      .from('registrations')
+      .select('student_id,status,students(student_code,classes(class_name),profiles(full_name))', {
+        filters: [['activity_id', 'eq', activityId], ['status', 'in', '(registered,approved)']],
+      }),
+    supabaseClient
+      .from('attendance')
+      .select('*', { filters: [['activity_id', 'eq', activityId]] }),
+  ]);
 
-  const { data: attendanceRows } = await supabaseClient
-    .from('attendance')
-    .select('*', { filters: [['activity_id', 'eq', activityId]] });
+  const { data: registrations, error: regError } = regResult;
+  const { data: attendanceRows } = attResult;
 
   loadingState?.classList.add('is-hidden');
 
@@ -145,8 +154,49 @@ async function saveRow(index) {
     return;
   }
 
-  Popup.toast('success', `บันทึกข้อมูลของ ${row.full_name} สำเร็จ (การมาร์คเสร็จสิ้นจะออกใบประกาศนียบัตรอัตโนมัติ)`);
+  Popup.toast('success', `บันทึกข้อมูลของ ${row.full_name} สำเร็จ กำลังออกใบประกาศนียบัตร...`);
+  await tryGenerateCertificate(row);
   await loadParticipants();
+}
+
+/** รอ + เช็คซ้ำหลายรอบ (retry) ให้ trigger ฝั่ง DB สร้างแถว certificates เสร็จก่อน
+ *  แล้วค่อย generate ไฟล์ PDF จริงอัปโหลดขึ้น storage (เดิมรอครั้งเดียว 1 วิ ถ้าช้ากว่านั้น
+ *  จะหาแถวไม่เจอแล้วเงียบๆ ไม่ generate ไฟล์ให้ ไม่มี error ให้เห็นเลย) */
+async function tryGenerateCertificate(row) {
+  let certRows = null;
+
+  for (let attempt = 0; attempt < 5; attempt++) {
+    await new Promise((resolve) => setTimeout(resolve, 800));
+
+    const { data } = await supabaseClient
+      .from('certificates')
+      .select('*', { filters: [['student_id', 'eq', row.student_id], ['activity_id', 'eq', activityId]] });
+
+    if (data && data.length > 0) {
+      certRows = data;
+      break;
+    }
+  }
+
+  if (!certRows || certRows.length === 0) {
+    Popup.warning('ยังไม่ได้ออกใบประกาศนียบัตร', 'ระบบหลังบ้านสร้างข้อมูลช้ากว่าปกติ กรุณากด "บันทึก" อีกครั้งเพื่อลองใหม่');
+    return;
+  }
+  if (certRows[0].file_url) return; // มีไฟล์อยู่แล้ว ไม่ต้อง generate ซ้ำ
+
+  const result = await generateAndUploadCertificate({
+    studentId: row.student_id,
+    activityId,
+    studentName: row.full_name,
+    activityName,
+    certificateNo: certRows[0].certificate_no,
+    issueDate: certRows[0].issue_date,
+    schoolName: 'Rmutr School',
+  });
+
+  if (!result.success) {
+    Popup.error('ออกใบประกาศนียบัตรไม่สำเร็จ', result.error || 'เกิดข้อผิดพลาดในการสร้างไฟล์ PDF กรุณาลองกดบันทึกอีกครั้ง');
+  }
 }
 
 async function saveAll() {

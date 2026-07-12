@@ -3,11 +3,15 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 1,
             "patches": [
                 {
                     "date": 1783635915733,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1783870351797,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -139,17 +139,23 @@\n   await tryGenerateCertificate(activity);\r\n }\r\n \r\n async function tryGenerateCertificate(activity) {\r\n-  // รอสักครู่ให้ trigger ฝั่ง DB สร้างแถว certificates เสร็จก่อน แล้วค่อยไปอ่าน certificate_no มา generate PDF\r\n-  await new Promise((resolve) => setTimeout(resolve, 1200));\r\n+  // รอ + เช็คซ้ำหลายรอบ ให้ trigger ฝั่ง DB สร้างแถว certificates เสร็จก่อน\r\n+  let certRows = null;\r\n+  for (let attempt = 0; attempt < 5; attempt++) {\r\n+    await new Promise((resolve) => setTimeout(resolve, 800));\r\n+    const { data } = await supabaseClient\r\n+      .from('certificates')\r\n+      .select('*', { filters: [['student_id', 'eq', currentProfile.id], ['activity_id', 'eq', activity.id]] });\r\n+    if (data && data.length > 0) {\r\n+      certRows = data;\r\n+      break;\r\n+    }\r\n+  }\r\n \r\n-  const { data: certRows } = await supabaseClient\r\n-    .from('certificates')\r\n-    .select('*', { filters: [['student_id', 'eq', currentProfile.id], ['activity_id', 'eq', activity.id]] });\r\n+  if (!certRows || certRows.length === 0) return; // ให้ไปโหลดใหม่ทีหลังในหน้า certificates.html ได้อยู่แล้ว\r\n \r\n-  if (!certRows || certRows.length === 0) return; // trigger อาจยังไม่ทำงานเสร็จ ให้ไปโหลดใหม่ทีหลังในหน้า certificates.html\r\n-\r\n   const { data: profileRows } = await supabaseClient\r\n     .from('profiles')\r\n     .select('full_name', { filters: [['id', 'eq', currentProfile.id]] });\r\n \r\n"
                 }
             ],
             "date": 1783635915733,

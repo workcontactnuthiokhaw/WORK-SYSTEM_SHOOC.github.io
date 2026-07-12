@@ -257,6 +257,9 @@ function from(table) {
 // ---------------------------------------------------------------
 const storage = {
   /** อัปโหลดไฟล์เข้า bucket เช่น upload('certificates', `${studentId}/cert-001.pdf`, fileBlob) */
+  /** อัปโหลดไฟล์เข้า bucket เช่น upload('certificates', `${studentId}/cert-001.pdf`, fileBlob)
+   *  ใช้ x-upsert เพื่อให้อัปโหลดซ้ำ path เดิมได้ (เขียนทับ) แทนที่จะ error 400 "already exists"
+   */
   async upload(bucket, path, file) {
     const token = getAccessToken();
     try {
@@ -265,6 +268,8 @@ const storage = {
         headers: {
           apikey: SUPABASE_ANON_KEY,
           Authorization: `Bearer ${token || SUPABASE_ANON_KEY}`,
+          'x-upsert': 'true',
+          'Content-Type': file.type || 'application/octet-stream',
         },
         body: file,
       });

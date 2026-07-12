@@ -37,8 +37,7 @@ const ACTION_LABELS = {
 async function init() {
   const profile = await requireAuth(['admin']);
   if (!profile) return;
-  await loadUsersForFilter();
-  await loadLogs();
+  await Promise.all([loadUsersForFilter(), loadLogs()]);
 }
 
 async function loadUsersForFilter() {

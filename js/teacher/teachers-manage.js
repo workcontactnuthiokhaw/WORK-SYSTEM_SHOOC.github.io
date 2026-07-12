@@ -36,9 +36,7 @@ async function init() {
     return;
   }
 
-  await loadActivityInfo();
-  await loadAllTeachers();
-  await loadAssignedTeachers();
+  await Promise.all([loadActivityInfo(), loadAllTeachers(), loadAssignedTeachers()]);
 }
 
 async function loadActivityInfo() {
