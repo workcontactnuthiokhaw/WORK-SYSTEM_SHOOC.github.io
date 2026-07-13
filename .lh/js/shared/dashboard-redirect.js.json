@@ -1,0 +1,18 @@
+{
+    "sourceFile": "js/shared/dashboard-redirect.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1783910321796,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1783910321796,
+            "name": "Commit-0",
+            "content": "/**\r\n * dashboard-redirect.js — หน้า \"กำลังเข้าสู่ระบบ...\" ที่ dashboard.html\r\n *\r\n * dashboard.html ไม่มีเนื้อหาของตัวเอง เป็นแค่หน้า \"ทางผ่าน\" (loading screen)\r\n * ที่ทำหน้าที่เช็ค session แล้วเด้งไปหน้า dashboard จริงตาม role ของผู้ใช้ทันที\r\n * เพื่อให้ index.html (login) และหน้าอื่นๆ redirect มาที่นี่ได้แบบไม่ต้องรู้ role ล่วงหน้า\r\n *\r\n * ลำดับการทำงาน:\r\n *   1) requireAuth() เช็คว่า login อยู่จริงไหม (ถ้าไม่ได้ login จะโดน redirect ไปหน้า index.html เอง)\r\n *   2) ถ้า login อยู่ ใช้ getHomeForRole() เพื่อหาว่า role นี้ควรไปหน้าไหน แล้ว redirect ทันที\r\n */\r\n\r\nimport { requireAuth, getHomeForRole } from '../auth/auth-guard.js';\r\n\r\nasync function redirect() {\r\n  const profile = await requireAuth(); // ไม่จำกัด role แค่เช็คว่า login อยู่จริง\r\n  if (!profile) return; // requireAuth จัดการ redirect ไป login ให้แล้วถ้าไม่ผ่าน\r\n\r\n  window.location.href = getHomeForRole(profile.role);\r\n}\r\n\r\nredirect();"
+        }
+    ]
+}

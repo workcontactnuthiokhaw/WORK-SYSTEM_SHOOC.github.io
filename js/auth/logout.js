@@ -8,6 +8,12 @@
 import supabaseClient from '../config/supabase-client.js';
 import Popup from '../shared/popup.js';
 
+const LOGOUT_SUFFIX = '/js/auth/logout.js';
+const scriptPath = new URL(import.meta.url).pathname;
+const BASE_PATH = scriptPath.endsWith(LOGOUT_SUFFIX)
+  ? scriptPath.slice(0, -LOGOUT_SUFFIX.length)
+  : '';
+
 document.addEventListener('click', async (e) => {
   const btn = e.target.closest('#logout-btn');
   if (!btn) return;
@@ -17,5 +23,5 @@ document.addEventListener('click', async (e) => {
 
   await supabaseClient.auth.signOut();
   sessionStorage.removeItem('sams_current_profile');
-  window.location.href = '/index.html';
+  window.location.href = `${BASE_PATH}/index.html`;
 });

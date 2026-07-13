@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 3,
+            "activePatchIndex": 4,
             "patches": [
                 {
                     "date": 1783578889292,
@@ -20,6 +20,10 @@
                 {
                     "date": 1783909291810,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,18 +20,18 @@\n <body>\r\n   <!--\r\n     หน้านี้ไม่มี UI ถาวร เป็นแค่จุดพักหลัง login\r\n     dashboard-redirect.js จะเช็ค session แล้วส่งต่อไปหน้า dashboard ที่ตรงกับ role โดยอัตโนมัติ:\r\n-      admin   -> /pages/reports/dashboard-report.html\r\n-      teacher -> /pages/teacher/activities.html\r\n-      student -> /pages/student/activities-list.html\r\n-    ถ้ายังไม่ login จะถูกเด้งกลับไปหน้า /index.html\r\n+      admin   -> pages/reports/dashboard-report.html\r\n+      teacher -> pages/teacher/activities.html\r\n+      student -> pages/student/activities-list.html\r\n+    ถ้ายังไม่ login จะถูกเด้งกลับไปหน้า index.html\r\n   -->\r\n \r\n   <main class=\"loading-fullpage\">\r\n     <div class=\"spinner lg\"></div>\r\n     <p class=\"loading-fullpage-label\">กำลังตรวจสอบสิทธิ์การใช้งาน...</p>\r\n   </main>\r\n \r\n-  <script type=\"module\" src=\"/js/dashboard-redirect.js\"></script>\r\n+  <script type=\"module\" src=\"js/dashboard-redirect.js\"></script>\r\n </body>\r\n-</html>\r\n+</html>\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1783910347853,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,7 +31,7 @@\n     <div class=\"spinner lg\"></div>\r\n     <p class=\"loading-fullpage-label\">กำลังตรวจสอบสิทธิ์การใช้งาน...</p>\r\n   </main>\r\n \r\n-  <script type=\"module\" src=\"js/dashboard-redirect.js\"></script>\r\n+  <script type=\"module\" src=\"js/shared/dashboard-redirect.js\"></script>\r\n </body>\r\n </html>\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1783578889292,

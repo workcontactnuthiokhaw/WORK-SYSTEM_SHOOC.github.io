@@ -7,6 +7,12 @@
 import supabaseClient from '../config/supabase-client.js';
 import Popup from '../shared/popup.js';
 
+const RESET_SUFFIX = '/js/auth/reset-password.js';
+const scriptPath = new URL(import.meta.url).pathname;
+const BASE_PATH = scriptPath.endsWith(RESET_SUFFIX)
+  ? scriptPath.slice(0, -RESET_SUFFIX.length)
+  : '';
+
 const resetRequestForm = document.getElementById('reset-request-form');
 const resetEmailInput = document.getElementById('reset-email');
 const resetSubmitBtn = document.getElementById('reset-submit');
@@ -28,7 +34,7 @@ resetRequestForm?.addEventListener('submit', async (e) => {
   resetSubmitBtn.disabled = true;
   resetSubmitBtn.textContent = 'กำลังส่ง...';
 
-  const redirectTo = `${window.location.origin}/index.html`;
+  const redirectTo = `${window.location.origin}${BASE_PATH}/index.html`;
   const { error } = await supabaseClient.auth.resetPasswordForEmail(email, redirectTo);
 
   resetSubmitBtn.disabled = false;
@@ -90,6 +96,6 @@ newPasswordForm?.addEventListener('submit', async (e) => {
   Popup.success('เปลี่ยนรหัสผ่านสำเร็จ', 'กรุณาเข้าสู่ระบบด้วยรหัสผ่านใหม่');
   localStorage.removeItem('sams_auth_session');
   setTimeout(() => {
-    window.location.href = '/index.html';
+    window.location.href = `${BASE_PATH}/index.html`;
   }, 1200);
 });
