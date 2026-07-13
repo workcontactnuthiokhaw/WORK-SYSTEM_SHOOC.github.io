@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 5,
+            "activePatchIndex": 6,
             "patches": [
                 {
                     "date": 1783663413586,
@@ -28,6 +28,10 @@
                 {
                     "date": 1783911439740,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -65,9 +65,9 @@\n           <button class=\"topbar-menu-btn\" id=\"topbar-menu-btn\" aria-label=\"เปิดเมนู\"><i class=\"fi fi-rr-menu-burger\"></i></button>\r\n           <div class=\"topbar-page-title\">สแกน QR เช็กชื่อ</div>\r\n         </div>\r\n         <div class=\"topbar-right\">\r\n-          <button class=\"topbar-icon-btn\" aria-label=\"แจ้งเตือน\"><i class=\"fi fi-rr-bell\"></i><span class=\"badge-dot\"></span></button>\r\n+          <button class=\"topbar-icon-btn\" id=\"theme-toggle-btn\" aria-label=\"สลับโหมดสว่าง/มืด\"><i class=\"fi fi-rr-sun\" id=\"theme-toggle-icon\"></i></button>\r\n           <div class=\"topbar-user\">\r\n             <div class=\"topbar-user-avatar\" id=\"topbar-user-avatar\">น</div>\r\n             <div class=\"topbar-user-info\">\r\n               <div class=\"topbar-user-name\" id=\"topbar-user-name\">นักเรียน</div>\r\n"
+                },
+                {
+                    "date": 1783912006163,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,8 +2,14 @@\n <html lang=\"th\">\r\n <head>\r\n   <meta charset=\"UTF-8\" />\r\n   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\r\n+  <script>\r\n+    (function () {\r\n+      var theme = localStorage.getItem('sams_theme') || 'light';\r\n+      document.documentElement.dataset.theme = theme;\r\n+    })();\r\n+  </script>\r\n   <title>สแกน QR เช็กชื่อ | Rmutr School - SAMS</title>\r\n \r\n     <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\" />\r\n   <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin />\r\n"
                 }
             ],
             "date": 1783663413586,
