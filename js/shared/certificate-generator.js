@@ -18,6 +18,18 @@
  */
 
 import supabaseClient from '../config/supabase-client.js';
+import { KANIT_REGULAR_BASE64, KANIT_BOLD_BASE64 } from './kanit-font-base64.js';
+
+/** ฝังฟอนต์ Kanit (รองรับภาษาไทย) เข้า jsPDF instance นี้ — ต้องทำก่อนเขียนข้อความไทยทุกครั้ง
+ *  เพราะ jsPDF ไม่มีฟอนต์ที่รองรับภาษาไทยมาให้ในตัว (มีแต่ Helvetica/Times ที่เป็นอังกฤษล้วน)
+ *  หมายเหตุ: ต้องเรียกทุกครั้งที่สร้าง jsPDF instance ใหม่ (VFS/font เป็นของแต่ละ instance ไม่ใช่ global) */
+function registerKanitFont(doc) {
+  doc.addFileToVFS('Kanit-Regular.ttf', KANIT_REGULAR_BASE64);
+  doc.addFont('Kanit-Regular.ttf', 'Kanit', 'normal');
+  doc.addFileToVFS('Kanit-Bold.ttf', KANIT_BOLD_BASE64);
+  doc.addFont('Kanit-Bold.ttf', 'Kanit', 'bold');
+  doc.setFont('Kanit', 'normal');
+}
 
 /**
  * สร้าง PDF ใบประกาศนียบัตร (แนวนอน, ธีมขาว/แดงตามระบบ) คืนค่าเป็น Blob
@@ -28,6 +40,7 @@ function buildCertificatePdfBlob({ studentName, activityName, certificateNo, iss
   }
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+  registerKanitFont(doc);
 
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
@@ -41,7 +54,7 @@ function buildCertificatePdfBlob({ studentName, activityName, certificateNo, iss
   doc.rect(12, 12, pageWidth - 24, pageHeight - 24);
 
   // หัวเรื่อง
-  doc.setFont('helvetica', 'bold');
+  doc.setFont('Kanit', 'bold');
   doc.setFontSize(12);
   doc.setTextColor(...primaryRed);
   doc.text(schoolName || 'Rmutr School', pageWidth / 2, 30, { align: 'center' });
@@ -49,6 +62,7 @@ function buildCertificatePdfBlob({ studentName, activityName, certificateNo, iss
   doc.setFontSize(26);
   doc.setTextColor(30, 30, 30);
   doc.text('ใบประกาศนียบัตร', pageWidth / 2, 48, { align: 'center' });
+  doc.setFont('Kanit', 'normal');
   doc.setFontSize(14);
   doc.setTextColor(120, 120, 120);
   doc.text('Certificate of Participation', pageWidth / 2, 56, { align: 'center' });
@@ -59,11 +73,11 @@ function buildCertificatePdfBlob({ studentName, activityName, certificateNo, iss
   doc.text('มอบเพื่อแสดงว่า', pageWidth / 2, 74, { align: 'center' });
 
   doc.setFontSize(22);
-  doc.setFont('helvetica', 'bold');
+  doc.setFont('Kanit', 'bold');
   doc.setTextColor(...primaryRed);
   doc.text(studentName, pageWidth / 2, 88, { align: 'center' });
 
-  doc.setFont('helvetica', 'normal');
+  doc.setFont('Kanit', 'normal');
   doc.setFontSize(13);
   doc.setTextColor(60, 60, 60);
   doc.text(`ได้เข้าร่วมกิจกรรม "${activityName}" เรียบร้อยแล้ว`, pageWidth / 2, 100, { align: 'center' });

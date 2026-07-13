@@ -21,10 +21,10 @@
   <!--
     หน้านี้ไม่มี UI ถาวร เป็นแค่จุดพักหลัง login
     dashboard-redirect.js จะเช็ค session แล้วส่งต่อไปหน้า dashboard ที่ตรงกับ role โดยอัตโนมัติ:
-      admin   -> /pages/reports/dashboard-report.html
-      teacher -> /pages/teacher/activities.html
-      student -> /pages/student/activities-list.html
-    ถ้ายังไม่ login จะถูกเด้งกลับไปหน้า /index.html
+      admin   -> pages/reports/dashboard-report.html
+      teacher -> pages/teacher/activities.html
+      student -> pages/student/activities-list.html
+    ถ้ายังไม่ login จะถูกเด้งกลับไปหน้า index.html
   -->
 
   <main class="loading-fullpage">
@@ -32,6 +32,6 @@
     <p class="loading-fullpage-label">กำลังตรวจสอบสิทธิ์การใช้งาน...</p>
   </main>
 
-  <script type="module" src="/js/dashboard-redirect.js"></script>
+  <script type="module" src="js/dashboard-redirect.js"></script>
 </body>
 </html>

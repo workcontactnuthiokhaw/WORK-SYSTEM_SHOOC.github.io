@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 3,
             "patches": [
                 {
                     "date": 1783578889292,
@@ -16,6 +16,10 @@
                 {
                     "date": 1783873661647,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,15 +11,14 @@\n   <link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap\" />\r\n \r\n   <link rel=\"stylesheet\" href=\"https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css\" />\r\n \r\n-  <link rel=\"stylesheet\" href=\"/css/base/reset.css\" />\r\n-  <link rel=\"stylesheet\" href=\"/css/base/variables.css\" />\r\n-  <link rel=\"stylesheet\" href=\"/css/base/typography.css\" />\r\n-  <link rel=\"stylesheet\" href=\"/css/components/loading.css\" />\r\n+  <link rel=\"stylesheet\" href=\"css/base/reset.css\" />\r\n+  <link rel=\"stylesheet\" href=\"css/base/variables.css\" />\r\n+  <link rel=\"stylesheet\" href=\"css/base/typography.css\" />\r\n+  <link rel=\"stylesheet\" href=\"css/components/loading.css\" />\r\n </head>\r\n <body>\r\n-\r\n   <!--\r\n     หน้านี้ไม่มี UI ถาวร เป็นแค่จุดพักหลัง login\r\n     dashboard-redirect.js จะเช็ค session แล้วส่งต่อไปหน้า dashboard ที่ตรงกับ role โดยอัตโนมัติ:\r\n       admin   -> /pages/reports/dashboard-report.html\r\n"
+                },
+                {
+                    "date": 1783909291810,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,18 +20,18 @@\n <body>\r\n   <!--\r\n     หน้านี้ไม่มี UI ถาวร เป็นแค่จุดพักหลัง login\r\n     dashboard-redirect.js จะเช็ค session แล้วส่งต่อไปหน้า dashboard ที่ตรงกับ role โดยอัตโนมัติ:\r\n-      admin   -> /pages/reports/dashboard-report.html\r\n-      teacher -> /pages/teacher/activities.html\r\n-      student -> /pages/student/activities-list.html\r\n-    ถ้ายังไม่ login จะถูกเด้งกลับไปหน้า /index.html\r\n+      admin   -> pages/reports/dashboard-report.html\r\n+      teacher -> pages/teacher/activities.html\r\n+      student -> pages/student/activities-list.html\r\n+    ถ้ายังไม่ login จะถูกเด้งกลับไปหน้า index.html\r\n   -->\r\n \r\n   <main class=\"loading-fullpage\">\r\n     <div class=\"spinner lg\"></div>\r\n     <p class=\"loading-fullpage-label\">กำลังตรวจสอบสิทธิ์การใช้งาน...</p>\r\n   </main>\r\n \r\n-  <script type=\"module\" src=\"/js/dashboard-redirect.js\"></script>\r\n+  <script type=\"module\" src=\"js/dashboard-redirect.js\"></script>\r\n </body>\r\n-</html>\r\n+</html>\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1783578889292,
