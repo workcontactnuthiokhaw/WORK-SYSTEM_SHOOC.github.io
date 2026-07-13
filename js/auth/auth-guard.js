@@ -3,7 +3,7 @@
  * ตรวจสอบ session และสิทธิ์ (role) ก่อนอนุญาตให้เข้าหน้าใดๆ หลัง login
  *
  * วิธีใช้: import ไฟล์นี้ไว้บนสุดของทุกหน้าใน /pages/** และ dashboard.html
- *   import { requireAuth } from '/js/auth/auth-guard.js';
+ *   import { requireAuth } from '../auth/auth-guard.js'; // path ตามตำแหน่งไฟล์จริง
  *   const profile = await requireAuth(['admin']); // อนุญาตเฉพาะ admin เท่านั้น
  *   const profile = await requireAuth(['admin','teacher']); // อนุญาตหลาย role
  *   const profile = await requireAuth(); // แค่เช็คว่า login แล้ว ไม่จำกัด role
@@ -11,16 +11,25 @@
 
 import supabaseClient from '../config/supabase-client.js';
 
+// คำนวณ base path ของ repo แบบไดนามิกจากตำแหน่งไฟล์นี้เอง
+// รองรับทั้งกรณี deploy เป็น GitHub Pages project page (มี subpath ชื่อ repo)
+// และกรณีรันบน localhost หรือ custom domain (ไม่มี subpath) โดยไม่ต้อง hardcode ชื่อ repo
+const AUTH_GUARD_SUFFIX = '/js/auth/auth-guard.js';
+const scriptPath = new URL(import.meta.url).pathname;
+const BASE_PATH = scriptPath.endsWith(AUTH_GUARD_SUFFIX)
+  ? scriptPath.slice(0, -AUTH_GUARD_SUFFIX.length)
+  : '';
+
 const ROLE_HOME = {
-  admin: '/pages/reports/dashboard-report.html',
-  teacher: '/pages/teacher/activities.html',
-  student: '/pages/student/activities-list.html',
+  admin: `${BASE_PATH}/pages/reports/dashboard-report.html`,
+  teacher: `${BASE_PATH}/pages/teacher/activities.html`,
+  student: `${BASE_PATH}/pages/student/activities-list.html`,
 };
 
 const PROFILE_CACHE_KEY = 'sams_current_profile';
 
 function redirectToLogin() {
-  window.location.href = '/index.html';
+  window.location.href = `${BASE_PATH}/index.html`;
 }
 
 /** ถอด payload ของ JWT (base64url) ออกมาดู โดยไม่ต้องยิง network request ไปถาม server */
@@ -87,7 +96,7 @@ export async function requireAuth(allowedRoles = null) {
   const cachedProfile = getCachedProfile();
   if (cachedProfile && cachedProfile.id === userId) {
     if (allowedRoles && !allowedRoles.includes(cachedProfile.role)) {
-      window.location.href = ROLE_HOME[cachedProfile.role] || '/index.html';
+      window.location.href = ROLE_HOME[cachedProfile.role] || `${BASE_PATH}/index.html`;
       return null;
     }
     return cachedProfile;
@@ -107,7 +116,7 @@ export async function requireAuth(allowedRoles = null) {
 
   if (allowedRoles && !allowedRoles.includes(profile.role)) {
     // login อยู่ แต่ role ไม่มีสิทธิ์เข้าหน้านี้ -> พาไปหน้า dashboard ของ role ตัวเอง
-    window.location.href = ROLE_HOME[profile.role] || '/index.html';
+    window.location.href = ROLE_HOME[profile.role] || `${BASE_PATH}/index.html`;
     return null;
   }
 
@@ -119,5 +128,5 @@ export async function requireAuth(allowedRoles = null) {
 
 /** ใช้ตอน redirect หลัง login สำเร็จ ไปหน้า dashboard ที่ตรงกับ role */
 export function getHomeForRole(role) {
-  return ROLE_HOME[role] || '/index.html';
+  return ROLE_HOME[role] || `${BASE_PATH}/index.html`;
 }
