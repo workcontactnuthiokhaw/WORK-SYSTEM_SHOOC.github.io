@@ -22,9 +22,10 @@ const forgotLink = document.getElementById('login-forgot-link');
 
   const { data: profileRows } = await supabaseClient
     .from('profiles')
-    .select('role', { filters: [['id', 'eq', userData.id]] });
+    .select('id,full_name,role', { filters: [['id', 'eq', userData.id]] });
 
   if (profileRows && profileRows.length > 0) {
+    sessionStorage.setItem('sams_current_profile', JSON.stringify(profileRows[0]));
     window.location.href = getHomeForRole(profileRows[0].role);
   }
 })();
@@ -60,7 +61,7 @@ form?.addEventListener('submit', async (e) => {
   const userId = signInData.user?.id;
   const { data: profileRows, error: profileError } = await supabaseClient
     .from('profiles')
-    .select('role,full_name', { filters: [['id', 'eq', userId]] });
+    .select('id,role,full_name', { filters: [['id', 'eq', userId]] });
 
   setLoading(false);
 
@@ -71,6 +72,12 @@ form?.addEventListener('submit', async (e) => {
   }
 
   const profile = profileRows[0];
+
+  // เซฟ profile ลง cache ก่อน redirect เสมอ (สำคัญ!)
+  // ป้องกันบั๊ก: layout.js ของหน้าถัดไปอ่าน sessionStorage ไม่เจอตอนเพิ่ง login ครั้งแรก
+  // ทำให้เมนูที่ควรซ่อนตาม role (เช่น admin-only) ยังโชว์ค้างอยู่จนกว่าจะเปลี่ยนหน้าอีกครั้ง
+  sessionStorage.setItem('sams_current_profile', JSON.stringify(profile));
+
   Popup.toast('success', `ยินดีต้อนรับ ${profile.full_name}`);
   setTimeout(() => {
     window.location.href = getHomeForRole(profile.role);
