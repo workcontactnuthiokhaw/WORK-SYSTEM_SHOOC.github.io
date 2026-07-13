@@ -18,7 +18,7 @@
  * Element IDs ที่คาดหวัง:
  *   #user-form, #user-id (hidden, = profiles.id)
  *   #user-email (ใช้ตอนสร้างใหม่เท่านั้น), #user-password (ใช้ตอนสร้างใหม่เท่านั้น)
- *   #user-full-name, #user-role (select: admin/teacher/student)
+ *   #user-first-name, #user-last-name, #user-role (select: admin/teacher/student)
  *   #student-fields (wrapper), #student-code, #student-class (select)
  *   #teacher-fields (wrapper), #teacher-code, #teacher-department (select)
  *   #form-submit-btn, #form-reset-btn, #search-input, #filter-role
@@ -40,7 +40,8 @@ const form = document.getElementById('user-form');
 const idInput = document.getElementById('user-id');
 const emailInput = document.getElementById('user-email');
 const passwordInput = document.getElementById('user-password');
-const fullNameInput = document.getElementById('user-full-name');
+const firstNameInput = document.getElementById('user-first-name');
+const lastNameInput = document.getElementById('user-last-name');
 const roleSelect = document.getElementById('user-role');
 const studentFields = document.getElementById('student-fields');
 const studentCodeInput = document.getElementById('student-code');
@@ -221,11 +222,13 @@ form?.addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const editingId = idInput.value;
-  const fullName = fullNameInput.value.trim();
+  const firstName = firstNameInput.value.trim();
+  const lastName = lastNameInput.value.trim();
+  const fullName = `${firstName} ${lastName}`.trim();
   const role = roleSelect.value;
 
-  if (!fullName || !role) {
-    Popup.warning('ข้อมูลไม่ครบถ้วน', 'กรุณากรอกชื่อ-สกุล และเลือก role ให้ครบ');
+  if (!firstName || !lastName || !role) {
+    Popup.warning('ข้อมูลไม่ครบถ้วน', 'กรุณากรอกชื่อ นามสกุล และเลือก role ให้ครบ');
     return;
   }
 
@@ -327,7 +330,9 @@ tableBody?.addEventListener('click', async (e) => {
     const u = mergedUsers.find((x) => x.id === editBtn.dataset.id);
     if (!u) return;
     idInput.value = u.id;
-    fullNameInput.value = u.full_name;
+    const [firstPart, ...restParts] = (u.full_name || '').split(' ');
+    firstNameInput.value = firstPart || '';
+    lastNameInput.value = restParts.join(' ');
     roleSelect.value = u.role;
     emailInput.disabled = true;
     passwordInput.disabled = true;
@@ -346,7 +351,7 @@ tableBody?.addEventListener('click', async (e) => {
     }
 
     submitBtn.textContent = 'บันทึกการแก้ไข';
-    fullNameInput.focus();
+    firstNameInput.focus();
   }
 
   if (deleteBtn) {

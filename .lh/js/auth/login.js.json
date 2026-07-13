@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 3,
             "patches": [
                 {
                     "date": 1783579697115,
@@ -12,6 +12,14 @@
                 {
                     "date": 1783912380211,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,11 +21,12 @@\n   if (!userData) return;\r\n \r\n   const { data: profileRows } = await supabaseClient\r\n     .from('profiles')\r\n-    .select('role', { filters: [['id', 'eq', userData.id]] });\r\n+    .select('id,full_name,role', { filters: [['id', 'eq', userData.id]] });\r\n \r\n   if (profileRows && profileRows.length > 0) {\r\n+    sessionStorage.setItem('sams_current_profile', JSON.stringify(profileRows[0]));\r\n     window.location.href = getHomeForRole(profileRows[0].role);\r\n   }\r\n })();\r\n \r\n@@ -59,9 +60,9 @@\n   // ดึง role จาก profiles เพื่อ redirect ให้ถูกหน้า\r\n   const userId = signInData.user?.id;\r\n   const { data: profileRows, error: profileError } = await supabaseClient\r\n     .from('profiles')\r\n-    .select('role,full_name', { filters: [['id', 'eq', userId]] });\r\n+    .select('id,role,full_name', { filters: [['id', 'eq', userId]] });\r\n \r\n   setLoading(false);\r\n \r\n   if (profileError || !profileRows || profileRows.length === 0) {\r\n@@ -70,8 +71,14 @@\n     return;\r\n   }\r\n \r\n   const profile = profileRows[0];\r\n+\r\n+  // เซฟ profile ลง cache ก่อน redirect เสมอ (สำคัญ!)\r\n+  // ป้องกันบั๊ก: layout.js ของหน้าถัดไปอ่าน sessionStorage ไม่เจอตอนเพิ่ง login ครั้งแรก\r\n+  // ทำให้เมนูที่ควรซ่อนตาม role (เช่น admin-only) ยังโชว์ค้างอยู่จนกว่าจะเปลี่ยนหน้าอีกครั้ง\r\n+  sessionStorage.setItem('sams_current_profile', JSON.stringify(profile));\r\n+\r\n   Popup.toast('success', `ยินดีต้อนรับ ${profile.full_name}`);\r\n   setTimeout(() => {\r\n     window.location.href = getHomeForRole(profile.role);\r\n   }, 600);\r\n"
+                },
+                {
+                    "date": 1783928357453,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,8 +4,9 @@\n \r\n import supabaseClient from '../config/supabase-client.js';\r\n import { getHomeForRole } from './auth-guard.js';\r\n import Popup from '../shared/popup.js';\r\n+import { logAction } from '../shared/activity-logger.js';\r\n \r\n const form = document.getElementById('login-form');\r\n const emailInput = document.getElementById('login-email');\r\n const passwordInput = document.getElementById('login-password');\r\n"
+                },
+                {
+                    "date": 1783928373667,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -76,9 +76,9 @@\n \r\n   // เซฟ profile ลง cache ก่อน redirect เสมอ (สำคัญ!)\r\n   // ป้องกันบั๊ก: layout.js ของหน้าถัดไปอ่าน sessionStorage ไม่เจอตอนเพิ่ง login ครั้งแรก\r\n   // ทำให้เมนูที่ควรซ่อนตาม role (เช่น admin-only) ยังโชว์ค้างอยู่จนกว่าจะเปลี่ยนหน้าอีกครั้ง\r\n-  sessionStorage.setItem('sams_current_profile', JSON.stringify(profile));\r\n+  sessionStorage.setItem('sams_current_profile', JSON.stringify(profile));await logAction('login', null, { email }, profile.id);\r\n \r\n   Popup.toast('success', `ยินดีต้อนรับ ${profile.full_name}`);\r\n   setTimeout(() => {\r\n     window.location.href = getHomeForRole(profile.role);\r\n"
                 }
             ],
             "date": 1783579697115,

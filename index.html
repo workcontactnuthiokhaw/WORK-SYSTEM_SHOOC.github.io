@@ -13,11 +13,11 @@
 
   <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css" />
 
-  <link rel="stylesheet" href="css/base/reset.css" />
-  <link rel="stylesheet" href="css/base/variables.css" />
-  <link rel="stylesheet" href="css/base/typography.css" />
-  <link rel="stylesheet" href="css/components/popup.css" />
-  <link rel="stylesheet" href="css/pages/login.css" />
+  <link rel="stylesheet" href="/css/base/reset.css" />
+  <link rel="stylesheet" href="/css/base/variables.css" />
+  <link rel="stylesheet" href="/css/base/typography.css" />
+  <link rel="stylesheet" href="/css/components/popup.css" />
+  <link rel="stylesheet" href="/css/pages/login.css" />
 </head>
 <body>
 
@@ -138,6 +138,32 @@
         ? '<i class="fi fi-rr-eye-crossed"></i>'
         : '<i class="fi fi-rr-eye"></i>';
     });
+
+    // ---------- จำกัดตัวอักษรที่พิมพ์ได้ ----------
+    // ช่องอีเมล: พิมพ์ได้แค่ตัวอักษรอังกฤษ (a-z, A-Z), ตัวเลข, @ และ .
+    function restrictEmailInput(input) {
+      if (!input) return;
+      input.addEventListener('input', () => {
+        const cleaned = input.value.replace(/[^a-zA-Z0-9@._-]/g, '');
+        if (cleaned !== input.value) input.value = cleaned;
+      });
+    }
+
+    // ช่องรหัสผ่าน: พิมพ์ได้แค่ตัวอักษรอังกฤษ, ตัวเลข, และอักขระพิเศษทั่วไป (ห้ามภาษาไทย/ภาษาอื่น)
+    function restrictPasswordInput(input) {
+      if (!input) return;
+      input.addEventListener('input', () => {
+        const cleaned = input.value.replace(/[^a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~`]/g, '');
+        if (cleaned !== input.value) input.value = cleaned;
+      });
+    }
+
+    // ใช้กับทุกช่องอีเมล/รหัสผ่านในหน้านี้ (login, reset, ตั้งรหัสผ่านใหม่)
+    restrictEmailInput(document.getElementById('login-email'));
+    restrictEmailInput(document.getElementById('reset-email'));
+    restrictPasswordInput(document.getElementById('login-password'));
+    restrictPasswordInput(document.getElementById('new-password'));
+    restrictPasswordInput(document.getElementById('new-password-confirm'));
   </script>
 </body>
 </html>

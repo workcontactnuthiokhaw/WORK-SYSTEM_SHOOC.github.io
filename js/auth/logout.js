@@ -5,6 +5,7 @@
  *   import '../auth/logout.js'; (หรือ path ที่ตรงกับตำแหน่งไฟล์)
  */
 
+import { logAction } from '../shared/activity-logger.js';
 import supabaseClient from '../config/supabase-client.js';
 import Popup from '../shared/popup.js';
 
@@ -21,7 +22,7 @@ document.addEventListener('click', async (e) => {
   const confirmed = await Popup.confirm('ออกจากระบบ', 'ต้องการออกจากระบบใช่หรือไม่?');
   if (!confirmed) return;
 
-  await supabaseClient.auth.signOut();
+  await logAction('logout', null, {});await supabaseClient.auth.signOut();
   sessionStorage.removeItem('sams_current_profile');
   window.location.href = `${BASE_PATH}/index.html`;
 });

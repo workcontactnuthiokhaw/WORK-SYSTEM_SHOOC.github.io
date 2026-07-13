@@ -5,6 +5,7 @@
 import supabaseClient from '../config/supabase-client.js';
 import { getHomeForRole } from './auth-guard.js';
 import Popup from '../shared/popup.js';
+import { logAction } from '../shared/activity-logger.js';
 
 const form = document.getElementById('login-form');
 const emailInput = document.getElementById('login-email');
@@ -76,7 +77,7 @@ form?.addEventListener('submit', async (e) => {
   // เซฟ profile ลง cache ก่อน redirect เสมอ (สำคัญ!)
   // ป้องกันบั๊ก: layout.js ของหน้าถัดไปอ่าน sessionStorage ไม่เจอตอนเพิ่ง login ครั้งแรก
   // ทำให้เมนูที่ควรซ่อนตาม role (เช่น admin-only) ยังโชว์ค้างอยู่จนกว่าจะเปลี่ยนหน้าอีกครั้ง
-  sessionStorage.setItem('sams_current_profile', JSON.stringify(profile));
+  sessionStorage.setItem('sams_current_profile', JSON.stringify(profile));await logAction('login', null, { email }, profile.id);
 
   Popup.toast('success', `ยินดีต้อนรับ ${profile.full_name}`);
   setTimeout(() => {

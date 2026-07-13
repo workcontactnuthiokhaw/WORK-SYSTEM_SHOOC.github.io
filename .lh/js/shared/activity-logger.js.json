@@ -1,0 +1,18 @@
+{
+    "sourceFile": "js/shared/activity-logger.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1783928339012,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1783928339012,
+            "name": "Commit-0",
+            "content": "/**\r\n * activity-logger.js — บันทึก log กิจกรรมของผู้ใช้ลงตาราง logs ใน Supabase\r\n * ใช้ร่วมกันทุกหน้าที่มีการ login/logout หรือแก้ไขข้อมูล\r\n *\r\n * หมายเหตุสำคัญ: การเขียน log เป็นแบบ \"best-effort\" — ถ้าเขียนไม่สำเร็จ (เช่น network ล้ม)\r\n * จะไม่ throw error ขัดจังหวะการทำงานหลัก เพราะธุรกรรมจริง (บันทึกข้อมูล/login) ต้องสำเร็จ\r\n * ก่อนเสมอ ต่อให้บันทึก log ไม่ได้ก็ไม่ควรทำให้ผู้ใช้งานหลักล้มเหลวไปด้วย\r\n *\r\n * วิธีใช้:\r\n *   import { logAction } from '../shared/activity-logger.js';\r\n *   await logAction('create', 'departments', { name: 'วิทยาศาสตร์' });\r\n *   await logAction('login', null, { email }, userId); // ตอน login ระบุ userId ตรงๆ เพราะ cache ยังไม่ทัน\r\n */\r\n\r\nimport supabaseClient from '../config/supabase-client.js';\r\n\r\nconst PROFILE_CACHE_KEY = 'sams_current_profile';\r\n\r\nfunction getCurrentUserId() {\r\n  const raw = sessionStorage.getItem(PROFILE_CACHE_KEY);\r\n  if (!raw) return null;\r\n  try {\r\n    return JSON.parse(raw)?.id || null;\r\n  } catch {\r\n    return null;\r\n  }\r\n}\r\n\r\n/**\r\n * บันทึก log 1 รายการ\r\n * @param {string} action - 'login' | 'logout' | 'create' | 'update' | 'delete' | 'check_in' | 'grade'\r\n * @param {string|null} tableName - ชื่อตารางที่เกี่ยวข้อง เช่น 'departments' (null ได้ถ้าไม่ผูกกับตารางใดตารางหนึ่งตรงๆ)\r\n * @param {object} detail - ข้อมูลเพิ่มเติม (jsonb) เช่น { id, name }\r\n * @param {string} [userIdOverride] - ระบุ user_id เอง (ใช้ตอน login ที่ profile ยังไม่ถูก cache)\r\n */\r\nexport async function logAction(action, tableName, detail = {}, userIdOverride = null) {\r\n  const userId = userIdOverride || getCurrentUserId();\r\n  if (!userId) return; // ไม่มี user ให้ผูก log ก็ไม่ต้องบันทึก\r\n\r\n  try {\r\n    await supabaseClient.from('logs').insert({\r\n      user_id: userId,\r\n      action,\r\n      table_name: tableName,\r\n      detail,\r\n    });\r\n  } catch {\r\n    // เขียน log ไม่สำเร็จ ไม่ต้องขัดจังหวะผู้ใช้ (best-effort เท่านั้น)\r\n  }\r\n}"
+        }
+    ]
+}
