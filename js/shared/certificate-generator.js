@@ -44,6 +44,7 @@ function buildCertificatePdfBlob({ studentName, activityName, certificateNo, iss
 
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
+  const centerY = pageHeight / 2;
   const primaryRed = [200, 16, 46];
 
   // กรอบตกแต่ง
@@ -55,38 +56,38 @@ function buildCertificatePdfBlob({ studentName, activityName, certificateNo, iss
 
   // หัวเรื่อง
   doc.setFont('Kanit', 'bold');
-  doc.setFontSize(12);
+  doc.setFontSize(16);
   doc.setTextColor(...primaryRed);
-  doc.text(schoolName || 'Rmutr School', pageWidth / 2, 30, { align: 'center' });
+  doc.text(schoolName || 'Rmutr School', pageWidth / 2, centerY - 55, { align: 'center' });
 
-  doc.setFontSize(26);
+  doc.setFontSize(40);
   doc.setTextColor(30, 30, 30);
-  doc.text('ใบประกาศนียบัตร', pageWidth / 2, 48, { align: 'center' });
+  doc.text('ใบประกาศนียบัตร', pageWidth / 2, centerY - 35, { align: 'center' });
   doc.setFont('Kanit', 'normal');
-  doc.setFontSize(14);
+  doc.setFontSize(20);
   doc.setTextColor(120, 120, 120);
-  doc.text('Certificate of Participation', pageWidth / 2, 56, { align: 'center' });
+  doc.text('Certificate of Participation', pageWidth / 2, centerY - 22, { align: 'center' });
 
   // เนื้อหา
-  doc.setFontSize(12);
+  doc.setFontSize(16);
   doc.setTextColor(60, 60, 60);
-  doc.text('มอบเพื่อแสดงว่า', pageWidth / 2, 74, { align: 'center' });
+  doc.text('มอบเพื่อแสดงว่า', pageWidth / 2, centerY, { align: 'center' });
 
-  doc.setFontSize(22);
+  doc.setFontSize(32);
   doc.setFont('Kanit', 'bold');
   doc.setTextColor(...primaryRed);
-  doc.text(studentName, pageWidth / 2, 88, { align: 'center' });
+  doc.text(studentName, pageWidth / 2, centerY + 18, { align: 'center' });
 
   doc.setFont('Kanit', 'normal');
-  doc.setFontSize(13);
+  doc.setFontSize(18);
   doc.setTextColor(60, 60, 60);
-  doc.text(`ได้เข้าร่วมกิจกรรม "${activityName}" เรียบร้อยแล้ว`, pageWidth / 2, 100, { align: 'center' });
+  doc.text(`ได้เข้าร่วมกิจกรรม "${activityName}" เรียบร้อยแล้ว`, pageWidth / 2, centerY + 34, { align: 'center' });
 
   // ท้ายเอกสาร: เลขที่ใบประกาศ + วันที่ออก
-  doc.setFontSize(10);
+  doc.setFontSize(13);
   doc.setTextColor(120, 120, 120);
-  doc.text(`เลขที่ใบประกาศนียบัตร: ${certificateNo}`, pageWidth / 2, pageHeight - 30, { align: 'center' });
-  doc.text(`ออกให้เมื่อวันที่ ${formatThaiDate(issueDate)}`, pageWidth / 2, pageHeight - 24, { align: 'center' });
+  doc.text(`เลขที่ใบประกาศนียบัตร: ${certificateNo}`, pageWidth / 2, pageHeight - 28, { align: 'center' });
+  doc.text(`ออกให้เมื่อวันที่ ${formatThaiDate(issueDate)}`, pageWidth / 2, pageHeight - 20, { align: 'center' });
 
   return doc.output('blob');
 }

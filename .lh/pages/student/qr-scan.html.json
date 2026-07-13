@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 6,
+            "activePatchIndex": 7,
             "patches": [
                 {
                     "date": 1783663413586,
@@ -32,6 +32,10 @@
                 {
                     "date": 1783912006163,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,8 +2,14 @@\n <html lang=\"th\">\r\n <head>\r\n   <meta charset=\"UTF-8\" />\r\n   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\r\n+  <script>\r\n+    (function () {\r\n+      var theme = localStorage.getItem('sams_theme') || 'light';\r\n+      document.documentElement.dataset.theme = theme;\r\n+    })();\r\n+  </script>\r\n   <title>สแกน QR เช็กชื่อ | Rmutr School - SAMS</title>\r\n \r\n     <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\" />\r\n   <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin />\r\n"
+                },
+                {
+                    "date": 1783913304232,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,8 +30,12 @@\n   <link rel=\"stylesheet\" href=\"../../css/pages/student.css\" />\r\n \r\n   <!-- Library สแกน QR (ใช้โดย js/student/qr-scan.js) -->\r\n   <script src=\"https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js\"></script>\r\n+\r\n+  <!-- Library สำหรับ generate ใบประกาศนียบัตร PDF (ใช้โดย js/shared/certificate-generator.js\r\n+       ซึ่งถูกเรียกจาก js/student/qr-scan.js ทันทีหลังเช็กชื่อสำเร็จ) -->\r\n+  <script src=\"https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js\"></script>\r\n </head>\r\n <body>\r\n \r\n   <div class=\"app-shell\" id=\"app-shell\">\r\n@@ -113,5 +117,5 @@\n     import '../../js/shared/layout.js';\r\n     import '../../js/student/qr-scan.js';\r\n   </script>\r\n </body>\r\n-</html>\r\n+</html>\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1783663413586,

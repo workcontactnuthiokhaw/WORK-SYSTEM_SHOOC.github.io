@@ -5,6 +5,8 @@
  *
  * ต้องโหลด jsQR ผ่าน CDN ในหน้า HTML ก่อนใช้งาน:
  *   <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+ * ต้องโหลด jsPDF ผ่าน CDN ในหน้า HTML ก่อนใช้งาน (ใช้โดย certificate-generator.js ด้านล่าง):
+ *   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
  *
  * Element IDs ที่คาดหวัง:
  *   #qr-video, #qr-canvas (ซ่อนไว้ ใช้ประมวลผลเฟรมเท่านั้น)
@@ -139,8 +141,12 @@ async function handleScanResult(activityId) {
   await tryGenerateCertificate(activity);
 }
 
+/** รอ + เช็คซ้ำหลายรอบ ให้ trigger ฝั่ง DB สร้างแถว certificates เสร็จก่อน
+ *  แล้วค่อย generate ไฟล์ PDF จริงอัปโหลดขึ้น storage — ต้องเช็ค result.success ทุกครั้ง
+ *  (เดิมไม่เช็คค่าที่ return กลับมาเลย ถ้า generate ไม่สำเร็จ เช่น หน้านี้ไม่ได้โหลด jsPDF
+ *  ก็จะเงียบสนิท ไม่มี error ให้เห็น ปุ่มดาวน์โหลดในหน้า certificates.html ก็จะค้างที่
+ *  "กำลังจัดเตรียมไฟล์..." ตลอดไปโดยไม่รู้สาเหตุ) */
 async function tryGenerateCertificate(activity) {
-  // รอ + เช็คซ้ำหลายรอบ ให้ trigger ฝั่ง DB สร้างแถว certificates เสร็จก่อน
   let certRows = null;
   for (let attempt = 0; attempt < 5; attempt++) {
     await new Promise((resolve) => setTimeout(resolve, 800));
@@ -154,6 +160,7 @@ async function tryGenerateCertificate(activity) {
   }
 
   if (!certRows || certRows.length === 0) return; // ให้ไปโหลดใหม่ทีหลังในหน้า certificates.html ได้อยู่แล้ว
+  if (certRows[0].file_url) return; // มีไฟล์อยู่แล้ว ไม่ต้อง generate ซ้ำ
 
   const { data: profileRows } = await supabaseClient
     .from('profiles')
@@ -161,7 +168,7 @@ async function tryGenerateCertificate(activity) {
 
   const studentName = profileRows?.[0]?.full_name || 'นักเรียน';
 
-  await generateAndUploadCertificate({
+  const result = await generateAndUploadCertificate({
     studentId: currentProfile.id,
     activityId: activity.id,
     studentName,
@@ -170,6 +177,13 @@ async function tryGenerateCertificate(activity) {
     issueDate: certRows[0].issue_date,
     schoolName: 'Rmutr School',
   });
+
+  if (!result.success) {
+    Popup.warning(
+      'ใบประกาศนียบัตรยังไม่พร้อม',
+      'บันทึกการเข้าร่วมกิจกรรมสำเร็จแล้ว แต่สร้างไฟล์ใบประกาศนียบัตรไม่สำเร็จ กรุณาลองเปิดหน้า "ใบประกาศนียบัตร" อีกครั้งในภายหลัง'
+    );
+  }
 }
 
 function setStatus(text) {
