@@ -1,12 +1,13 @@
 /**
- * layout.js — จัดการพฤติกรรมร่วมของ shell หลังบ้านทุกหน้า (sidebar + topbar)
+ * layout.js — จัดการพฤติกรรมร่วมของ shell หลังบ้านทุกหน้า (sidebar + topbar + theme toggle)
  * ไม่ได้อยู่ในลิสต์ไฟล์ตั้งต้น แต่จำเป็นเพราะทุกหน้าหลัง login ต้องมี sidebar/topbar ที่ทำงานได้จริง
  *
  * วิธีใช้: import ไว้ท้ายไฟล์ HTML ทุกหน้าหลัง login (พร้อมกับ auth-guard/logout)
- *   <script type="module" src="/js/shared/layout.js"></script>
+ *   <script type="module" src="../../js/shared/layout.js"></script>
  *
  * Element IDs ที่คาดหวัง: #sidebar, #sidebar-backdrop, #topbar-menu-btn,
- *   #sidebar-collapse-btn, #app-shell, #topbar-user-name, #topbar-user-role, #topbar-user-avatar
+ *   #sidebar-collapse-btn, #app-shell, #topbar-user-name, #topbar-user-role, #topbar-user-avatar,
+ *   #theme-toggle-btn, #theme-toggle-icon (ปุ่ม/ไอคอนสลับโหมดสว่าง-มืด)
  */
 
 const sidebar = document.getElementById('sidebar');
@@ -60,3 +61,28 @@ collapseBtn?.addEventListener('click', () => {
     // ไม่ต้องทำอะไร ถ้า parse ไม่สำเร็จ
   }
 })();
+
+// ---------- สลับโหมดสว่าง/มืด (เดิมเป็นปุ่มกระดิ่งแจ้งเตือนที่ไม่มีฟังก์ชัน) ----------
+const THEME_STORAGE_KEY = 'sams_theme';
+const themeToggleBtn = document.getElementById('theme-toggle-btn');
+const themeToggleIcon = document.getElementById('theme-toggle-icon');
+
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  if (themeToggleIcon) {
+    themeToggleIcon.className = theme === 'dark' ? 'fi fi-rr-moon' : 'fi fi-rr-sun';
+  }
+}
+
+function getSavedTheme() {
+  return localStorage.getItem(THEME_STORAGE_KEY) || 'light';
+}
+
+applyTheme(getSavedTheme());
+
+themeToggleBtn?.addEventListener('click', () => {
+  const current = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+  const next = current === 'dark' ? 'light' : 'dark';
+  localStorage.setItem(THEME_STORAGE_KEY, next);
+  applyTheme(next);
+});

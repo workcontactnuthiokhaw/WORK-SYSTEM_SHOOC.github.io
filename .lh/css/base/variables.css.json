@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 4,
             "patches": [
                 {
                     "date": 1783578966580,
@@ -12,6 +12,18 @@
                 {
                     "date": 1783578997264,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,9 +29,9 @@\n   --color-status-pending: #D97706;\r\n   --color-status-pending-bg: #FEF3C7;\r\n   --color-status-completed: #2563EB;\r\n   --color-status-completed-bg: #DBEAFE;\r\n-  --color-status-cancelled: #DC2626;\r\n+  --color-status-cancelled: #171616;\r\n   --color-status-cancelled-bg: #FEE2E2;\r\n \r\n   /* ---------- Typography ---------- */\r\n   --font-family: 'Kanit', sans-serif;\r\n"
+                },
+                {
+                    "date": 1783911314387,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,9 +29,9 @@\n   --color-status-pending: #D97706;\r\n   --color-status-pending-bg: #FEF3C7;\r\n   --color-status-completed: #2563EB;\r\n   --color-status-completed-bg: #DBEAFE;\r\n-  --color-status-cancelled: #171616;\r\n+  --color-status-cancelled: #DC2626;\r\n   --color-status-cancelled-bg: #FEE2E2;\r\n \r\n   /* ---------- Typography ---------- */\r\n   --font-family: 'Kanit', sans-serif;\r\n@@ -68,5 +68,23 @@\n \r\n   /* ---------- Motion ---------- */\r\n   --transition-fast: 150ms ease;\r\n   --transition-base: 220ms ease;\r\n+\r\n+  /* ---------- Dark mode overrides ---------- */\r\n+:root[data-theme=\"dark\"] {\r\n+  --color-bg: #1E1B1D;\r\n+  --color-bg-canvas: #141213;\r\n+  --color-border: #33292C;\r\n+  --color-border-strong: #453739;\r\n+  --color-text: #F2EDEE;\r\n+  --color-text-muted: #B8AEB1;\r\n+  --color-text-faint: #8A7D80;\r\n+  --color-sidebar-bg: #0E0A0B;\r\n+  --color-primary-light: #3A2226;\r\n+  --color-primary-soft: #4A2A2F;\r\n+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);\r\n+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);\r\n+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.6);\r\n+}\r\n+\r\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1783911326878,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -85,6 +85,5 @@\n   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);\r\n   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);\r\n   --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.6);\r\n }\r\n-\r\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1783911332085,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -69,21 +69,6 @@\n   /* ---------- Motion ---------- */\r\n   --transition-fast: 150ms ease;\r\n   --transition-base: 220ms ease;\r\n \r\n-  /* ---------- Dark mode overrides ---------- */\r\n-:root[data-theme=\"dark\"] {\r\n-  --color-bg: #1E1B1D;\r\n-  --color-bg-canvas: #141213;\r\n-  --color-border: #33292C;\r\n-  --color-border-strong: #453739;\r\n-  --color-text: #F2EDEE;\r\n-  --color-text-muted: #B8AEB1;\r\n-  --color-text-faint: #8A7D80;\r\n-  --color-sidebar-bg: #0E0A0B;\r\n-  --color-primary-light: #3A2226;\r\n-  --color-primary-soft: #4A2A2F;\r\n-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);\r\n-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);\r\n-  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.6);\r\n-}\r\n+  \r\n }\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1783578966580,

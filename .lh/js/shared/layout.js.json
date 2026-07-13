@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 2,
             "patches": [
                 {
                     "date": 1783636631549,
@@ -12,6 +12,10 @@
                 {
                     "date": 1783663105910,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,9 +36,9 @@\n   sidebar?.classList.toggle('is-collapsed');\r\n   appShell?.classList.toggle('is-sidebar-collapsed');\r\n });\r\n \r\n-// แสดงชื่อ/role ผู้ใช้ปัจจุบันที่ topbar (auth-guard.js เก็บ profile ไว้ใน sessionStorage แล้ว)\r\n+// แสดงชื่อ/role ผู้ใช้ปัจจุบันที่ topbar + ตั้ง data-user-role ให้ CSS ใช้ซ่อน/แสดงเมนูตามสิทธิ์\r\n (function renderCurrentUser() {\r\n   const raw = sessionStorage.getItem('sams_current_profile');\r\n   if (!raw) return;\r\n \r\n@@ -52,8 +52,11 @@\n \r\n     if (nameEl) nameEl.textContent = profile.full_name;\r\n     if (roleEl) roleEl.textContent = roleLabels[profile.role] || profile.role;\r\n     if (avatarEl) avatarEl.textContent = (profile.full_name || '?').charAt(0);\r\n+\r\n+    // ใช้ selector เช่น :root[data-user-role=\"student\"] .admin-only { display:none } ใน sidebar.css\r\n+    document.documentElement.dataset.userRole = profile.role;\r\n   } catch {\r\n     // ไม่ต้องทำอะไร ถ้า parse ไม่สำเร็จ\r\n   }\r\n })();\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1783911368616,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,13 +1,14 @@\n /**\r\n- * layout.js — จัดการพฤติกรรมร่วมของ shell หลังบ้านทุกหน้า (sidebar + topbar)\r\n+ * layout.js — จัดการพฤติกรรมร่วมของ shell หลังบ้านทุกหน้า (sidebar + topbar + theme toggle)\r\n  * ไม่ได้อยู่ในลิสต์ไฟล์ตั้งต้น แต่จำเป็นเพราะทุกหน้าหลัง login ต้องมี sidebar/topbar ที่ทำงานได้จริง\r\n  *\r\n  * วิธีใช้: import ไว้ท้ายไฟล์ HTML ทุกหน้าหลัง login (พร้อมกับ auth-guard/logout)\r\n- *   <script type=\"module\" src=\"/js/shared/layout.js\"></script>\r\n+ *   <script type=\"module\" src=\"../../js/shared/layout.js\"></script>\r\n  *\r\n  * Element IDs ที่คาดหวัง: #sidebar, #sidebar-backdrop, #topbar-menu-btn,\r\n- *   #sidebar-collapse-btn, #app-shell, #topbar-user-name, #topbar-user-role, #topbar-user-avatar\r\n+ *   #sidebar-collapse-btn, #app-shell, #topbar-user-name, #topbar-user-role, #topbar-user-avatar,\r\n+ *   #theme-toggle-btn, #theme-toggle-icon (ปุ่ม/ไอคอนสลับโหมดสว่าง-มืด)\r\n  */\r\n \r\n const sidebar = document.getElementById('sidebar');\r\n const backdrop = document.getElementById('sidebar-backdrop');\r\n@@ -58,5 +59,30 @@\n     document.documentElement.dataset.userRole = profile.role;\r\n   } catch {\r\n     // ไม่ต้องทำอะไร ถ้า parse ไม่สำเร็จ\r\n   }\r\n-})();\n\\ No newline at end of file\n+})();\r\n+\r\n+// ---------- สลับโหมดสว่าง/มืด (เดิมเป็นปุ่มกระดิ่งแจ้งเตือนที่ไม่มีฟังก์ชัน) ----------\r\n+const THEME_STORAGE_KEY = 'sams_theme';\r\n+const themeToggleBtn = document.getElementById('theme-toggle-btn');\r\n+const themeToggleIcon = document.getElementById('theme-toggle-icon');\r\n+\r\n+function applyTheme(theme) {\r\n+  document.documentElement.dataset.theme = theme;\r\n+  if (themeToggleIcon) {\r\n+    themeToggleIcon.className = theme === 'dark' ? 'fi fi-rr-moon' : 'fi fi-rr-sun';\r\n+  }\r\n+}\r\n+\r\n+function getSavedTheme() {\r\n+  return localStorage.getItem(THEME_STORAGE_KEY) || 'light';\r\n+}\r\n+\r\n+applyTheme(getSavedTheme());\r\n+\r\n+themeToggleBtn?.addEventListener('click', () => {\r\n+  const current = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';\r\n+  const next = current === 'dark' ? 'light' : 'dark';\r\n+  localStorage.setItem(THEME_STORAGE_KEY, next);\r\n+  applyTheme(next);\r\n+});\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1783636631549,
