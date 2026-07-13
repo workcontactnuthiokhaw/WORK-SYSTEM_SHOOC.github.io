@@ -5,7 +5,7 @@
  *   import '../auth/logout.js'; (หรือ path ที่ตรงกับตำแหน่งไฟล์)
  */
 
-// import { logAction } from '../shared/activity-logger.js';
+import { logAction } from '../shared/activity-logger.js';
 import supabaseClient from '../config/supabase-client.js';
 import Popup from '../shared/popup.js';
 
